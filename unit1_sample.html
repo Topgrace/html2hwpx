@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1단원 유리수와 순환소수 해설 (v2)</title>
+    <!-- Chosen Palette: Academic Indigo (bg-gray-100, text-gray-800, primary-indigo-600) -->
+    <!-- Application Structure Plan: A single-page vertical layout with a sticky left-hand navigation sidebar. This structure is ideal for an answer key as it mirrors the textbook's flow and allows users to quickly jump to the specific section or page number they need answers for. Interaction is focused on navigation and readability. -->
+    <!-- Visualization & Content Choices: 
+        1.  Report Info: All LaTeX mathematical notations (e.g., $0.7\dot{2}$, $\frac{1}{3}$).
+            Goal: Render math expressions correctly.
+            Viz/Presentation: KaTeX library (auto-render extension).
+            Interaction: None (static rendering).
+            Justification: KaTeX is a lightweight and fast CDN library for rendering LaTeX on the web, which is essential for this document's readability.
+        2.  Report Info: Answer key blocks ('개념 마무리', '학교 시험 준비하기').
+            Goal: Present answers clearly.
+            Viz/Presentation: HTML blockquote styled with CSS.
+            Interaction: None.
+            Justification: Replaced tables with styled blockquotes per user request for a consistent, outlined look.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" xintegrity="sha384-KiWOvVjnN8qwKMvhIqsNOHQGMZ9VLSxOduMKEkZviNLuHiIOv4NlGkR58NaDRCN+" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" xintegrity="sha384-hIoBPJpTadx5My+1CrKleftFmbdyDs+bYqC7mbP8KTweACL1IpvLxFfFePl1uiiM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" xintegrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+        h1, h2, h3, h4 {
+            color: #111827;
+            font-weight: 700;
+        }
+        /* prose 기본 스타일을 유지하되, mt-12, mt-10을 Tailwind 클래스로 직접 적용 */
+        .prose h3 { @apply text-2xl font-bold mt-12 mb-4 border-b pb-2 border-indigo-200; }
+        .prose h4 { @apply text-xl font-bold mt-10 mb-3; }
+        
+        .katex { font-size: 1.1em !important; }
+        
+        /* 테이블 스타일 (만일을 대비해 유지) */
+        .solution-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #d1d5db;
+        }
+        .solution-table th, .solution-table td {
+            border: 1px solid #d1d5db;
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .solution-table th {
+            background-color: #f9fafb;
+            font-weight: 600;
+        }
+        .prose { @apply max-w-none; }
+        .prose p { @apply my-2; }
+        .prose ol { @apply my-2; }
+        .prose ul { @apply my-2; }
+        
+        /* blockquote 스타일 (요청사항) */
+        .prose blockquote {
+            border: 2px solid blue; /* 파란색 윤곽선 두께 2px 실선 */
+            padding: 1rem; /* 윤곽선과 내용 사이 여백 */
+            margin: 1rem 0; /* 위아래 여백 */
+            border-radius: 4px; /* 모서리 둥글게 (선택사항) */
+            background-color: transparent; /* 기존 배경색 제거 */
+            quotes: none; /* 기본 인용 부호 제거 */
+            font-style: normal;
+            color: inherit;
+        }
+        .prose blockquote p {
+            margin: 0; /* blockquote 내부 p태그의 여백 제거 */
+        }
+        .prose blockquote .answer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 0.5rem;
+        }
+         .prose blockquote .answer-item {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .prose blockquote .answer-num {
+            font-weight: 600;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 2rem;
+            background-color: white;
+            border-right: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar-nav {
+            flex-grow: 1;
+        }
+        .sidebar a {
+            @apply block text-sm text-gray-600 hover:text-indigo-600 transition-colors duration-150;
+        }
+        .sidebar a.level-1 { @apply font-semibold text-gray-800 text-base mt-4; }
+        .sidebar a.level-2 { @apply pl-3 py-1 rounded; }
+        .sidebar a.level-2:hover, .sidebar a.active {
+            @apply bg-indigo-50 text-indigo-700;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .page-container {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .page {
+            background-color: white;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            max-width: 80rem; /* 5xl -> 80rem */
+            margin: 2rem auto;
+            padding: 3rem;
+            width: 100%;
+        }
+
+        /* 2단 Column 레이아웃 - 순수 CSS로 명시적 작성 */
+        .page-content {
+            column-count: 1; /* 기본값: 모바일 1단 */
+            column-gap: 2rem; /* gap-x-8 = 32px = 2rem */
+        }
+        
+        /* 컬럼 내부 요소가 잘리는 것을 방지 */
+        .page-content > * {
+           break-inside: avoid;
+           page-break-inside: avoid;
+        }
+
+        /* 태블릿 이상에서 2단 */
+        @media (min-width: 769px) {
+            .page-content {
+                column-count: 2;
+                column-gap: 2rem;
+            }
+        }
+
+        .pagination-controls {
+            text-align: center;
+            padding: 1rem;
+            position: sticky;
+            bottom: 0;
+            background-color: #f3f4f6;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: 0;
+                border-bottom: 1px solid #e5e7eb;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+                height: auto;
+            }
+            .page {
+                padding: 1.5rem;
+                margin: 1rem auto;
+            }
+            .page-content {
+                column-count: 1; /* 모바일에서는 명시적으로 1단 */
+            }
+        }
+
+        /* Print-specific styles */
+        @media print {
+            .sidebar, #printBtn, .pagination-controls {
+                display: none !important;
+            }
+            .main-content {
+                margin-left: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+            body {
+                background-color: #ffffff !important;
+            }
+            .page-container {
+                overflow-y: visible !important;
+            }
+            .page {
+                box-shadow: none;
+                margin: 0;
+                max-width: none;
+                page-break-after: always;
+                display: block !important;
+            }
+            .page.hidden {
+                display: block !important;
+            }
+            .prose {
+                max-width: 100% !important;
+            }
+            h3 {
+                margin-top: 2rem;
+                page-break-before: auto;
+                page-break-after: avoid;
+            }
+            .solution-table {
+                page-break-inside: avoid;
+            }
+            /* 인쇄 시 2단 레이아웃 */
+            .page-content {
+                column-count: 2;
+                column-gap: 2rem;
+                column-rule: 1px solid #e5e7eb; /* 선택사항: 단 사이 구분선 */
+            }
+            .prose blockquote {
+                border-color: blue !important; /* 인쇄 시에도 테두리 색상 유지 */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="flex flex-col md:flex-row">
+        
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <h1 class="text-xl font-bold text-indigo-700 mb-6">1단원 해설 (v2)</h1>
+            <div class="sidebar-nav">
+                <ul class="space-y-1">
+                    <li><a href="#s-1-1" class="level-1">유리수와 소수 (1~4쪽)</a></li>
+                    <li><a href="#s-1-1" class="level-2" data-nav-id="s-1-1">개념 익히기 1 (1쪽)</a></li>
+                    <li><a href="#s-1-2" class="level-2" data-nav-id="s-1-2">개념 익히기 1 (2쪽)</a></li>
+                    <li><a href="#s-1-3" class="level-2" data-nav-id="s-1-3">개념 다지기 (3쪽)</a></li>
+                    <li><a href="#s-1-4" class="level-2" data-nav-id="s-1-4">개념 마무리 (4쪽)</a></li>
+                    
+                    <li><a href="#s-2-1" class="level-1">유한소수 판별 (5~8쪽)</a></li>
+                    <li><a href="#s-2-1" class="level-2" data-nav-id="s-2-1">개념 익히기 1 (5쪽)</a></li>
+                    <li><a href="#s-2-2" class="level-2" data-nav-id="s-2-2">개념 익히기 1 (6쪽)</a></li>
+                    <li><a href="#s-2-3" class="level-2" data-nav-id="s-2-3">개념 다지기 (7쪽)</a></li>
+                    <li><a href="#s-2-4" class="level-2" data-nav-id="s-2-4">개념 마무리 (8쪽)</a></li>
+    
+                    <li><a href="#s-3-1" class="level-1">순환소수 분수로 1 (9~12쪽)</a></li>
+                    <li><a href="#s-3-1" class="level-2" data-nav-id="s-3-1">개념 익히기 1 (10쪽)</a></li>
+                    <li><a href="#s-3-2" class="level-2" data-nav-id="s-3-2">개념 다지기 (11쪽)</a></li>
+                    <li><a href="#s-3-3" class="level-2" data-nav-id="s-3-3">개념 마무리 (12쪽)</a></li>
+
+                    <li><a href="#s-4-1" class="level-1">순환소수 분수로 2 (13~15쪽)</a></li>
+                    <li><a href="#s-4-1" class="level-2" data-nav-id="s-4-1">개념 다지기 (14쪽)</a></li>
+                    <li><a href="#s-4-2" class="level-2" data-nav-id="s-4-2">개념 마무리 (15쪽)</a></li>
+                    
+                    <li><a href="#s-5-1" class="level-1">학교 시험 준비하기 (16~18쪽)</a></li>
+                </ul>
+            </div>
+
+            <button id="printBtn" class="w-full mt-8 p-2 bg-indigo-600 text-white rounded font-semibold hover:bg-indigo-700 transition-colors">
+                🖨️ 해설 PDF로 저장
+            </button>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content flex-1">
+            <div class="page-container">
+
+                <!-- Page 1 -->
+                <div class="page" data-page-index="0">
+                    <div class="page-content prose">
+                        <!-- 1~4쪽 -->
+                        <section id="s-1-1">
+                            <h3>개념 익히기 1 (1쪽)</h3>
+                            <blockquote>
+                                <p>(1) 0.2 (유한소수)<br>
+                                (2) 0.75 (유한소수)<br>
+                                (3) 0.1666... (무한소수)<br>
+                                (4) 1.9 (유한소수)<br>
+                                (5) 0.555... (무한소수)<br>
+                                (6) 0.142857... (무한소수)</p>
+                            </blockquote>
+                        </section>
+                        
+                        <br class="print:hidden">
+                        <section id="s-1-2">
+                            <h4>개념 익히기 1 (2쪽)</h4>
+                            <blockquote>
+                                <p>(1) 순환마디: 2, 간단히 쓰기: $0.7\dot{2}$</p>
+                                <p>(2) 순환마디: 23, 간단히 쓰기: $3.\dot{2}\dot{3}$</p>
+                                <p>(3) 순환마디: 7, 간단히 쓰기: $9.78\dot{7}$</p>
+                                <p>(4) 순환마디: 50, 간단히 쓰기: $560.\dot{5}\dot{0}$</p>
+                            </blockquote>
+                        </section>
+                        
+                        <br class="print:hidden">
+                        <section id="s-1-3">
+                            <h4>개념 다지기 (3쪽)</h4>
+                            <blockquote>
+                                <p><b>1</b> (1) 순환 (2) 유한 (3) 순환 (4) 유한 (5) 순환</p>
+                                <p><b>2</b> (1) 91, 2, $0.\dot{9}\dot{1}$ (2) 1, 1, $0.\dot{1}$ (3) 23, 2, $0.1\dot{2}\dot{3}$ (4) 4, 1, $1.7\dot{4}$ (5) 105, 3, $5.\dot{1}0\dot{5}$</p>
+                                <p><b>3</b> (1) $0.\dot{8}\dot{1}$ (2) $1.\dot{1}$ (3) $1.1\dot{6}$ (4) $1.\dot{2}\dot{1}$</p>
+                                <p><b>4</b> (1) 3 (2) 3, 3, 3 (3) 3 (4) 1</p>
+                            </blockquote>
+                            
+                            <p><b>3</b><br>
+                            (1) $\frac{9}{11} = 0.8181... = 0.\dot{8}\dot{1}$<br>
+                            (2) $\frac{10}{9} = 1.111... = 1.\dot{1}$<br>
+                            (3) $\frac{7}{6} = 1.1666... = 1.1\dot{6}$<br>
+                            (4) $\frac{40}{33} = 1.2121... = 1.\dot{2}\dot{1}$</p>
+
+                            <p><b>4</b><br>
+                            (3) 30은 3의 배수이므로 순환마디의 3번째 숫자인 3이다.<br>
+                            (4) $61 = 3 \times 20 + 1$이므로 순환마디의 1번째 숫자인 1이다.</p>
+                        </section>
+                        
+                        <br class="print:hidden">
+                        <section id="s-1-4">
+                            <h4>개념 마무리 (4쪽)</h4>
+                            <blockquote>
+                                <p><b>1</b> ③</p>
+                                <p><b>2</b> ④</p>
+                                <p><b>3</b> ㄱ, ㄷ</p>
+                                <p><b>4</b> $0.\dot{0}\dot{4}, 0.0\dot{4}, \frac{2}{5}, 0.4\dot{4}$</p>
+                                <p><b>5</b> (1) $0.\dot{4}5\dot{9}$ (2) 3 (3) 6번 (4) 5</p>
+                                <p><b>6</b> 106</p>
+                            </blockquote>
+        
+                            <p><b>1</b><br>
+                            ① $0.123 \Rightarrow 123$<br>
+                            ② $0.9181818... \Rightarrow 18$<br>
+                            ④ $5.432... \Rightarrow 32$<br>
+                            ⑤ $6.611... \Rightarrow 611$</p>
+                            
+                            <p><b>2</b><br>
+                            ① $0.040404 \neq 0.\dot{0}\dot{4}$<br>
+                            ② $1.313131... = 1.\dot{3}\dot{1}$<br>
+                            ③ $0.2343434... = 0.2\dot{3}\dot{4}$<br>
+                            ⑤ $1212.222... = 1212.\dot{2}$</p>
+                            
+                            <p><b>3</b><br>
+                            ㄱ. 분수는 (정수) / (0이 아닌 정수) 꼴이며, 이는 유리수의 정의와 같다.<br>
+                            ㄴ. $\frac{1}{3}$과 같은 분수는 순환하는 무한소수이다.<br>
+                            ㄷ. 유한소수는 분모가 10의 거듭제곱인 분수로 나타낼 수 있으므로 유리수이다.<br>
+                            ㄹ. 무한소수 중 원주율 $\pi$ 등 순환하지 않는 무한소수는 유리수가 아니다.</p>
+                            
+                            <p><b>4</b><br>
+                            $0.0\dot{4} = 0.0444...$<br>
+                            $0.\dot{0}\dot{4} = 0.0404...$<br>
+                            $0.4\dot{4} = 0.4444...$<br>
+                            $\frac{2}{5} = 0.4 = 0.4000...$<br>
+                            크기 순: $0.0404... < 0.0444... < 0.4000... < 0.4444...$</p>
+                            
+                            <p><b>5</b><br>
+                            (1) $\frac{17}{37} = 17 \div 37 = 0.459459... = 0.\dot{4}5\dot{9}$<br>
+                            (2) 순환마디는 459이므로 3개이다.<br>
+                            (3) $20 \div 3 = 6$ 이고 나머지가 2이므로, 순환마디는 6번 반복된다.<br>
+                            (4) 나머지가 2이므로, 순환마디의 2번째 숫자인 5이다.</p>
+                            
+                            <p><b>6</b><br>
+                            $1.2\dot{3}4\dot{1} = 1.2341341...$이므로 순환마디는 341 (3개)이다.<br>
+                            소수점 아래 40개 자리의 합:<br>
+                            (1번째 자리) + (다음 39개 자리의 합)<br>
+                            $= 2 + (3+4+1) \times 13$<br>
+                            $= 2 + (8 \times 13)$<br>
+                            $= 2 + 104 = 106$</p>
+                        </section>
+                    </div>
+                </div>
+
+                <!-- Page 2 -->
+                <div class="page hidden" data-page-index="1">
+                    <div class="page-content prose">
+                        <!-- 5~8쪽 -->
+                        <section id="s-2-1">
+                            <h3>개념 익히기 1 (5쪽)</h3>
+                            <blockquote>
+                                <p>(1) (주어짐) $\frac{3}{2^2 \times 5}$, 분모의 소인수: 2, 5</p>
+                                <p>(2) $\frac{11}{2^2 \times 5^2}$, 분모의 소인수: 2, 5</p>
+                                <p>(3) $\frac{2}{5}$, 분모의 소인수: 5</p>
+                                <p>(4) $\frac{1}{2^3}$, 분모의 소인수: 2</p>
+                                <p>(5) $\frac{8}{5}$, 분모의 소인수: 5</p>
+                            </blockquote>
+                        </section>
+                        
+                        <br class="print:hidden">
+                        <section id="s-2-2">
+                            <h4>개념 익히기 1 (6쪽)</h4>
+                            <blockquote>
+                                <p>(1) 순환 (2) 순환 (3) 순환 (4) 유한 (5) 유한 (6) 순환 (7) 유한 (8) 순환</p>
+                            </blockquote>
+                        </section>
+        
+                        <br class="print:hidden">
+                        <section id="s-2-3">
+                            <h4>개념 다지기 (7쪽)</h4>
+                            <blockquote>
+                                <p><b>1</b> (1) 기약분수: $\frac{5}{4}$, 분모의 소인수: 2<br>
+                                (2) 기약분수: $\frac{33}{125}$, 분모의 소인수: 5</p>
+                                <p><b>2</b> $\frac{1}{2}$, $\frac{1}{2 \times 5}$, $\frac{1}{5^2}$, $\frac{1}{2^2 \times 5^3}$</p>
+                                <p><b>3</b> (1) $\frac{2}{45}$ (순환) (2) $\frac{5}{13}$ (순환) (3) $\frac{2}{5}$ (유한) (4) $\frac{7}{2}$ (유한)</p>
+                                <p><b>4</b> $\frac{2}{3^3 \times 11}$, $\frac{5^2}{2^2 \times 3^3}$, $\frac{16}{144}$, $\frac{7 \times 13}{39}$, $\frac{12}{72}$</p>
+                                <p><b>5</b> (1) $\frac{a}{2^2 \times 3^2 \times 5^2}$ (2) 9, 18 (예) (3) 0.05 (4) $0.02\dot{3}$</p>
+                            </blockquote>
+                            
+                            <p><b>1</b><br>
+                            (1) $1.25 = \frac{125}{100} = \frac{5}{4}$. 기약분수: $\frac{5}{4}$, 분모의 소인수: 2<br>
+                            (2) $0.264 = \frac{264}{1000} = \frac{33}{125}$. 기약분수: $\frac{33}{125}$, 분모의 소인수: 5</p>
+                            
+                            <p><b>3</b><br>
+                            (1) $\frac{6}{135} = \frac{2}{45} = \frac{2}{3^2 \times 5}$ (순환)<br>
+                            (2) $\frac{25}{65} = \frac{5}{13}$ (순환)<br>
+                            (3) $\frac{42}{105} = \frac{2}{5}$ (유한)<br>
+                            (4) $\frac{189}{54} = \frac{7}{2}$ (유한)</p>
+                            
+                            <p><b>5</b><br>
+                            (1) $\frac{a}{900} = \frac{a}{9 \times 100} = \frac{a}{2^2 \times 3^2 \times 5^2}$<br>
+                            (2) 유한소수가 되려면 $a$는 $3^2=9$의 배수여야 한다. (예: 9, 18)<br>
+                            (3) $a=45$일 때, $\frac{45}{900} = \frac{1}{20} = 0.05$<br>
+                            (4) $a=21$일 때, $\frac{21}{900} = \frac{7}{300} = \frac{7}{3 \times 100} = 0.02\dot{3}$</p>
+                        </section>
+        
+                        <br class="print:hidden">
+                        <section id="s-2-4">
+                            <h4>개념 마무리 (8쪽)</h4>
+                            <blockquote>
+                                <p><b>1</b> ②, ④</p>
+                                <p><b>2</b> ④, ⑤</p>
+                                <p><b>3</b> ③, ④</p>
+                                <p><b>4</b> 9</p>
+                                <p><b>5</b> 7, 8, 10, 11</p>
+                                <p><b>6</b> ③</p>
+                            </blockquote>
+        
+                            <p><b>1</b><br>
+                            기약분수로 나타냈을 때 분모의 소인수가 2 또는 5뿐이어야 한다.<br>
+                            ① $\frac{10}{15} = \frac{2}{3}$ (순환)<br>
+                            ② $\frac{17}{16} = \frac{17}{2^4}$ (유한)<br>
+                            ③ $\frac{13}{78} = \frac{1}{6} = \frac{1}{2 \times 3}$ (순환)<br>
+                            ④ $\frac{27}{75} = \frac{9}{25} = \frac{9}{5^2}$ (유한)<br>
+                            ⑤ $\frac{4}{42} = \frac{2}{21} = \frac{2}{3 \times 7}$ (순환)</p>
+                            
+                            <p><b>2</b><br>
+                            $\frac{a}{70} = \frac{a}{2 \times 5 \times 7}$<br>
+                            유한소수가 되려면 $a$는 7의 배수여야 한다.<br>
+                            ④ 14 (7의 배수)<br>
+                            ⑤ 21 (7의 배수)</p>
+                            
+                            <p><b>3</b><br>
+                            $\frac{35}{72} \times A = \frac{5 \times 7}{2^3 \times 3^2} \times A$<br>
+                            유한소수가 되려면 $A$는 $3^2=9$의 배수여야 한다.<br>
+                            ③ $A = \frac{9}{10} \implies \frac{5 \times 7}{2^3 \times 3^2} \times \frac{3^2}{2 \times 5} = \frac{7}{2^4}$ (유한)<br>
+                            ④ $A = \frac{27}{10} \implies \frac{5 \times 7}{2^3 \times 3^2} \times \frac{3^3}{2 \times 5} = \frac{7 \times 3}{2^4}$ (유한)</p>
+                            
+                            <p><b>4</b><br>
+                            $\frac{42}{a} = \frac{2 \times 3 \times 7}{a}$<br>
+                            순환소수가 되려면 기약분수로 나타냈을 때 분모에 2와 5 이외의 소인수가 있어야 한다.<br>
+                            $a=1, 2, 3, 4, 5, 6, 7, 8$일 때는 모두 유한소수(또는 정수)가 된다.<br>
+                            $a=9$일 때, $\frac{42}{9} = \frac{14}{3}$ (순환소수)<br>
+                            따라서 가장 작은 자연수는 9이다.</p>
+                            
+                            <p><b>5</b><br>
+                            $\frac{1}{3} < \frac{a}{15} < \frac{4}{5} \implies \frac{5}{15} < \frac{a}{15} < \frac{12}{15}$<br>
+                            $a$는 5와 12 사이의 자연수이다. ($a = 6, 7, 8, 9, 10, 11$)<br>
+                            $\frac{a}{15} = \frac{a}{3 \times 5}$<br>
+                            순환소수가 되려면 $a$는 3의 배수가 아니어야 한다.<br>
+                            $a$ 값 중 3의 배수인 6, 9를 제외한다.<br>
+                            따라서 $a = 7, 8, 10, 11$</p>
+                            
+                            <p><b>6</b><br>
+                            (1) $\frac{A}{110} = \frac{A}{2 \times 5 \times 11}$가 유한소수이므로 $A$는 11의 배수이다.<br>
+                            (2) $A$는 두 자리 자연수이므로 $A = 11, 22, 33, 44, 55, 66, 77, 88, 99$이다.<br>
+                            (3) $\frac{55}{A} = \frac{5 \times 11}{A}$가 순환소수여야 한다.
+                            <ul>
+                                <li>$A=11, 22, 44, 55, 88$ 이면 $\frac{55}{A}$는 유한소수(또는 정수)가 된다.</li>
+                                <li>$A=33, 66, 77, 99$ 이면 $\frac{55}{A}$는 순환소수가 된다.</li>
+                            </ul>
+                            (4) 두 조건을 모두 만족하는 $A$는 4개이다.</p>
+                        </section>
+                    </div>
+                </div>
+
+                <!-- Page 3 -->
+                <div class="page hidden" data-page-index="2">
+                    <div class="page-content prose">
+                        <!-- 9~12쪽 -->
+                        <br class="print:hidden">
+                        <section id="s-3-1">
+                            <h3>개념 익히기 1 (10쪽)</h3>
+                            <blockquote>
+                                <p>(1) $12.1212...$</p>
+                                <p>(2) $9.878787...$</p>
+                                <p>(3) $125.2525...$</p>
+                                <p>(4) $704.704704...$</p>
+                                <p>(5) $980.1010...$</p>
+                            </blockquote>
+                        </section>
+        
+                        <br class="print:hidden">
+                        <section id="s-3-2">
+                            <h4>개념 다지기 (11쪽)</h4>
+                            <blockquote>
+                                <p><b>1</b> (1) $x = \frac{4}{3}$ (2) $x = \frac{17}{90}$</p>
+                                <p><b>2</b> (1) $10x = 41.999...$, $100x = 419.999...$<br>
+                                (2) $10x = 2.4545...$, $1000x = 245.4545...$<br>
+                                (3) $100x = 123.608...$, $100000x = 123608.608...$</p>
+                                <p><b>3</b> (1) $x = \frac{3211}{999}$ (2) $x = \frac{76}{495}$</p>
+                            </blockquote>
+                            
+                            <p><b>1</b><br>
+                            (1) $x=1.333...$<br>
+                            $10x = 13.333...$<br>
+                            $10x - x$ $\implies$ $9x = 12$ $\therefore x = \frac{12}{9} = \frac{4}{3}$</p>
+                            <p>(2) $x=0.1888...$<br>
+                            $10x = 1.888...$<br>
+                            $100x = 18.888...$<br>
+                            $100x - 10x$ $\implies$ $90x = 17$ $\therefore x = \frac{17}{90}$</p>
+                            
+                            <p><b>3</b><br>
+                            (1) $1000x - x = 3214.\dot{2}1\dot{4} - 3.\dot{2}1\dot{4} = 3211 \implies 999x = 3211 \implies x = \frac{3211}{999}$<br>
+                            (2) $1000x - 10x = 153.\dot{5}\dot{3} - 1.\dot{5}\dot{3} = 152 \implies 990x = 152 \implies x = \frac{152}{990} = \frac{76}{495}$</p>
+                        </section>
+        
+                        <br class="print:hidden">
+                        <section id="s-3-3">
+                            <h4>개념 마무리 (12쪽)</h4>
+                            <blockquote>
+                                <p><b>1</b> (1) 32 (2) 121 (3) 681 (4) 2292</p>
+                                <p><b>2</b> (1) $1000a - a$ (2) $1000x - 10x$ (3) $100c - 10c$</p>
+                                <p><b>3</b> $100x$, $100x$, 뺌, $99x=30$, $x = \frac{30}{99} = \frac{10}{33}$</p>
+                                <p><b>4</b> $100x$, $100x$, 뺌, $99x=510$, $x = \frac{510}{99} = \frac{170}{33}$</p>
+                                <p><b>5</b> $10x = 83.222...$, $100x = 832.222...$, $100x-10x$, $90x=749$, $x = \frac{749}{90}$</p>
+                            </blockquote>
+
+                            <p><b>1</b><br>
+                            (1) $100x - x = 32.32... - 0.32... = 32$<br>
+                            (2) $100y - 10y = 134.4... - 13.4... = 121$<br>
+                            (3) $1000z - z = 681.681... - 0.681... = 681$<br>
+                            (4) $1000w - 10w = 2315.15... - 23.15... = 2292$</p>
+
+                            <p><b>2</b><br>
+                            (1) $a=0.8\dot{4}\dot{2}$, 소수점 아래 1개(8)가 순환 안함, 순환마디 2개. $1000a - 10a$가 편리. $1000a-a$ 선택.<br>
+                            (2) $b=0.4\dot{2}\dot{7}$, 소수점 아래 1개(4)가 순환 안함, 순환마디 2개. $1000x - 10x$가 편리.<br>
+                            (3) $c=12.\dot{3}\dot{4}$, 소수점 아래 모두 순환. $100c - c$가 편리.</p>
+                        </section>
+                    </div>
+                </div>
+
+                <!-- Page 4 -->
+                <div class="page hidden" data-page-index="3">
+                    <div class="page-content prose">
+                        <!-- 13~15쪽 -->
+                        <br class="print:hidden">
+                        <section id="s-4-1">
+                            <h3>개념 다지기 (14쪽)</h3>
+                            <blockquote>
+                                <p><b>1</b> (1) 28, 2<br>
+                                (2) 4, 9<br>
+                                (3) 305, 1, 1<br>
+                                (4) 2172, 21, 990, 2, 1</p>
+                                <p><b>2</b> (1) $\frac{152}{333}$ (2) $\frac{28}{9}$ (3) $\frac{2071}{990}$ (4) $\frac{68}{15}$ (5) $\frac{314}{165}$</p>
+                                <p><b>3</b> (1) $0.\dot{1}\dot{3}, 0.\dot{3}\dot{6}, 0.\dot{3}\dot{0}, 0.2\dot{1}\dot{7}$ (2) 14 (3) $\frac{130}{33}$ (4) $\frac{6}{5}$ (5) $\frac{99}{13}$</p>
+                            </blockquote>
+
+                            <p><b>2</b><br>
+                            (1) $\frac{456}{999} = \frac{152}{333}$<br>
+                            (2) $\frac{31-3}{9} = \frac{28}{9}$<br>
+                            (3) $\frac{2091-20}{990} = \frac{2071}{990}$<br>
+                            (4) $\frac{453-45}{90} = \frac{408}{90} = \frac{68}{15}$<br>
+                            (5) $\frac{1903-19}{990} = \frac{1884}{990} = \frac{314}{165}$</p>
+                            <p><b>3</b><br>
+                            (2) $z = 1.\dot{5} = \frac{15-1}{9} = \frac{14}{9} \implies 9z = 9 \times \frac{14}{9} = 14$<br>
+                            (3) $y = 0.\dot{1}\dot{3} = \frac{13}{99} \implies 30y = 30 \times \frac{13}{99} = \frac{10 \times 13}{33} = \frac{130}{33}$<br>
+                            (4) $0.\dot{3}\dot{6} \div 0.\dot{3}\dot{0} = \frac{36}{99} \div \frac{30}{99} = \frac{36}{30} = \frac{6}{5}$<br>
+                            (5) $0.\dot{1}\dot{3} = \frac{13}{99} \implies$ 역수는 $\frac{99}{13}$</p>
+                        </section>
+
+                        <br class="print:hidden">
+                        <section id="s-4-2">
+                            <h4>개념 마무리 (15쪽)</h4>
+                            <blockquote>
+                                <p><b>1</b> ③</p>
+                                <p><b>2</b> ②</p>
+                                <p><b>3</b> ④</p>
+                                <p><b>4</b> 15</p>
+                                <p><b>5</b> (1) $\frac{44}{9}, \frac{14}{9}$ (2) $\frac{58}{9}$ (3) $\frac{22}{7}$</p>
+                                <p><b>6</b> 11</p>
+                            </blockquote>
+        
+                            <p><b>1</b><br>
+                            $x = 2.8\dot{7} = 2.8777...$<br>
+                            $10x = 28.777... \leftarrow ①$<br>
+                            $100x = 287.777... \leftarrow ②$<br>
+                            $② - ①$ 을 하면 $90x = 259$<br>
+                            $x = \frac{259}{90}$.<br>
+                            주어진 선택지 중 ③ $258$은 계산 결과 $259$와 다르므로 옳지 않다.</p>
+                            
+                            <p><b>2</b><br>
+                            $x = 1.\dot{2}\dot{7}$. 소수점 아래 순환마디가 바로 시작하므로 $100x - x$를 사용한다.</p>
+                            
+                            <p><b>3</b><br>
+                            ① $1.\dot{4} = \frac{14-1}{9} = \frac{13}{9}$<br>
+                            ② $0.\dot{3}7 = \frac{37}{99}$<br>
+                            ③ $6.\dot{6} = \frac{66-6}{9} = \frac{60}{9} = \frac{20}{3}$<br>
+                            ④ $0.\dot{0}9 = \frac{9}{99} = \frac{1}{11}$<br>
+                            ⑤ $0.4\dot{6} = \frac{46-4}{90} = \frac{42}{90} = \frac{7}{15}$</p>
+                            
+                            <p><b>4</b><br>
+                            $1.\dot{3}\dot{6} = \frac{136-1}{99} = \frac{135}{99} = \frac{15}{11}$<br>
+                            $\frac{x}{11} = \frac{15}{11}$ 이므로 $x = 15$</p>
+                            
+                            <p><b>5</b><br>
+                            (1) $4.\dot{8} = \frac{48-4}{9} = \frac{44}{9}$, $1.\dot{5} = \frac{15-1}{9} = \frac{14}{9}$<br>
+                            (2) $\frac{44}{9} + \frac{14}{9} = \frac{58}{9}$<br>
+                            (3) $\frac{44}{9} \div \frac{14}{9} = \frac{44}{9} \times \frac{9}{14} = \frac{44}{14} = \frac{22}{7}$</p>
+
+                            <p><b>6</b><br>
+                            $1.\dot{2}\dot{7} = \frac{127-1}{99} = \frac{126}{99} = \frac{14}{11}$<br>
+                            $\frac{14}{11} \times a$가 자연수이므로 $a$는 11의 배수여야 한다.<br>
+                            가장 작은 자연수 $a$는 11이다.</p>
+                        </section>
+                    </div>
+                </div>
+
+                <!-- Page 5 -->
+                <div class="page hidden" data-page-index="4">
+                    <div class="page-content prose">
+                        <!-- 16~18쪽 -->
+                        <section id="s-5-1">
+                            <h3>학교 시험 준비하기 (16~18쪽)</h3>
+                            <blockquote>
+                                <div class="answer-grid">
+                                    <div class="answer-item"><span class="answer-num">1</span> ⑤</div>
+                                    <div class="answer-item"><span class="answer-num">2</span> ②, ④</div>
+                                    <div class="answer-item"><span class="answer-num">3</span> ③</div>
+                                    <div class="answer-item"><span class="answer-num">4</span> ③, ④</div>
+                                    <div class="answer-item"><span class="answer-num">5</span> 7, 9</div>
+                                    <div class="answer-item"><span class="answer-num">6</span> D</div>
+                                    <div class="answer-item"><span class="answer-num">7</span> ③</div>
+                                    <div class="answer-item"><span class="answer-num">8</span> 0.6</div>
+                                    <div class="answer-item"><span class="answer-num">9</span> $\frac{270}{71}$</div>
+                                    <div class="answer-item"><span class="answer-num">10</span> 12</div>
+                                    <div class="answer-item"><span class="answer-num">11</span> ⑤ (계산 결과는 6)</div>
+                                    <div class="answer-item"><span class="answer-num">12</span> (1) $\frac{8}{9}$ (2) $\frac{1}{9}$ (3) $\frac{1}{9}, 0.\dot{1}$</div>
+                                    <div class="answer-item"><span class="answer-num">13</span> 3, 6, 7, 9</div>
+                                    <div class="answer-item"><span class="answer-num">14</span> 4개</div>
+                                    <div class="answer-item"><span class="answer-num">15</span> 4</div>
+                                    <div class="answer-item"><span class="answer-num">16</span> 5</div>
+                                    <div class="answer-item"><span class="answer-num">17</span> 63</div>
+                                    <div class="answer-item"><span class="answer-num">18</span> 15개</div>
+                                </div>
+                            </blockquote>
+        
+                            <p><b>1</b><br>
+                            $\frac{3}{8} = \frac{3}{2^3} = \frac{3 \times 5^3}{2^3 \times 5^3} = \frac{3 \times 125}{10^3} = \frac{375}{1000} = 0.375$<br>
+                            ① $5^3$, ② $5^3$, ③ 3, ④ 1000, ⑤ 0.375<br>
+                            알맞은 것은 ⑤이다.</p>
+                            
+                            <p><b>2</b><br>
+                            $x=1.4\dot{5}\dot{8}$.<br>
+                            ② $1.4\dot{5}\dot{8}$로 나타낸다.<br>
+                            ④ 분수로 나타내면 $\frac{1458-14}{990} = \frac{1444}{990} = \frac{722}{495}$이다.</p>
+
+                            <p><b>3</b><br>
+                            ① $\frac{6}{18} = \frac{1}{3}$ (순환)<br>
+                            ② $\frac{56}{49} = \frac{8}{7}$ (순환)<br>
+                            ③ $\frac{9}{125} = \frac{9}{5^3}$ (유한)<br>
+                            ④ $\frac{105}{132} = \frac{35}{44} = \frac{35}{2^2 \times 11}$ (순환)<br>
+                            ⑤ $\frac{50}{95} = \frac{10}{19}$ (순환)</p>
+                            
+                            <p><b>4</b><br>
+                            ①, ② 순환소수 중 유리수가 아닌 것은 없다.<br>
+                            ③ 순환소수는 모두 유리수이다. (O)<br>
+                            ④ 모든 유한소수는 유리수이므로 분수 꼴로 나타낼 수 있다. (O)<br>
+                            ⑤ 무한소수 중 순환하지 않는 무한소수($\pi$)도 있다.</p>
+                            
+                            <p><b>5</b><br>
+                            $\frac{15}{2^3 \times x} = \frac{3 \times 5}{2^3 \times x}$ ( $x \le 10$ )<br>
+                            $x=1, 2, 4, 5, 8, 10$ ⇨ 유한<br>
+                            $x=3 \implies \frac{5}{2^3}$ (유한)<br>
+                            $x=6 \implies \frac{5}{2^4}$ (유한)<br>
+                            $x=7 \implies \frac{15}{2^3 \times 7}$ (순환)<br>
+                            $x=9 \implies \frac{5}{2^3 \times 3}$ (순환)<br>
+                            따라서 $x$는 7, 9이다.</p>
+                            
+                            <p><b>6</b><br>
+                            $2.\dot{3} = \frac{23-2}{9} = \frac{21}{9} = \frac{7}{3} = 2.333...$<br>
+                            점 D에 해당한다.</p>
+
+                            <p><b>7</b><br>
+                            $x = 1.\dot{6} = \frac{16-1}{9} = \frac{15}{9} = \frac{5}{3}$<br>
+                            $y = 2.\dot{3} = \frac{23-2}{9} = \frac{21}{9} = \frac{7}{3}$<br>
+                            $xy = \frac{5}{3} \times \frac{7}{3} = \frac{35}{9}$</p>
+
+                            <p><b>8</b><br>
+                            $0.\dot{6}x - 0.\dot{1} = -x + 0.\dot{8} \implies \frac{6}{9}x - \frac{1}{9} = -x + \frac{8}{9}$<br>
+                            양변에 9를 곱하면 $6x - 1 = -9x + 8$<br>
+                            $15x = 9 \implies x = \frac{9}{15} = \frac{3}{5} = 0.6$</p>
+
+                            <p><b>9</b><br>
+                            $a = \frac{1}{2.\dot{1}\dot{5}} = \frac{1}{\frac{215-2}{99}} = \frac{99}{213} = \frac{33}{71}$<br>
+                            $b = \frac{1}{0.1\dot{2}} = \frac{1}{\frac{12-1}{90}} = \frac{90}{11}$<br>
+                            $ab = \frac{33}{71} \times \frac{90}{11} = \frac{3 \times 90}{71} = \frac{270}{71}$</p>
+
+                            <p><b>10</b><br>
+                            $\frac{1}{7} = 0.\dot{1}4285\dot{7}$ (순환마디 6개) $\implies a=6$<br>
+                            $\frac{2}{13} = 0.\dot{1}5384\dot{6}$ (순환마디 6개) $\implies b=6$<br>
+                            $a+b = 6+6=12$</p>
+
+                            <p><b>11</b><br>
+                            $1 + \frac{3}{10} + \frac{3}{100} + ... = 1.333... = 1.\dot{3}$<br>
+                            $1.\dot{3} = \frac{13-1}{9} = \frac{12}{9} = \frac{4}{3}$<br>
+                            $\frac{9}{2} \times \frac{4}{3} = 6$</p>
+                            
+                            <p><b>12</b><br>
+                            (1) 은수: $0.\dot{8} = \frac{8}{9}$. 분자 8을 잘못 봄 (분모 9).<br>
+                            (2) 원영: $0.\dot{1} = \frac{1}{9}$. 분모 1을 잘못 봄 (분자 1).<br>
+                            (3) 처음 기약분수는 $\frac{1}{9}$이고, $0.\dot{1}$이다.</p>
+
+                            <p><b>13</b><br>
+                            $\frac{6}{2^2 \times 3 \times a} = \frac{2}{2^2 \times a} = \frac{1}{2 \times a}$. $a$는 한 자리 자연수.<br>
+                            순환소수가 되려면 기약분수의 분모에 2나 5 이외의 소인수가 있어야 한다.<br>
+                            $a=1, 2, 4, 5, 8$ ⇨ 유한<br>
+                            $a=3, 6, 7, 9$ ⇨ 순환<br>
+                            ( $a=6 \implies \frac{1}{2 \times 6} = \frac{1}{2^2 \times 3}$ (순환) )</p>
+
+                            <p><b>14</b><br>
+                            $\frac{1}{3} < 0.\dot{x} < \frac{8}{9} \implies \frac{1}{3} < \frac{x}{9} < \frac{8}{9}$<br>
+                            $\frac{3}{9} < \frac{x}{9} < \frac{8}{9}$<br>
+                            $x$는 한 자리 자연수이므로 $x = 4, 5, 6, 7$. (4개)</p>
+
+                            <p><b>15</b><br>
+                            $\frac{20}{13} = 1.\dot{5}3846\dot{1}$ (순환마디 6개)<br>
+                            $100 \div 6 = 16$ (나머지 4)<br>
+                            소수점 아래 100번째 자리 숫자는 순환마디의 4번째 숫자인 4이다.</p>
+
+                            <p><b>16</b><br>
+                            $A \times 0.\dot{6} - A \times 0.6 = 0.\dot{3}$<br>
+                            $A (\frac{6}{9} - \frac{6}{10}) = \frac{3}{9}$<br>
+                            $A (\frac{2}{3} - \frac{3}{5}) = \frac{1}{3}$<br>
+                            $A (\frac{10 - 9}{15}) = \frac{1}{3} \implies A (\frac{1}{15}) = \frac{1}{3}$<br>
+                            $A = 15 \times \frac{1}{3} = 5$</p>
+
+                            <p><b>17</b><br>
+                            (가) $A$는 7의 배수인 두 자리 자연수.<br>
+                            (나) $\frac{A}{180} = \frac{A}{2^2 \times 3^2 \times 5}$가 유한소수.<br>
+                            $\implies A$는 $3^2=9$의 배수여야 한다.<br>
+                            $A$는 7과 9의 공배수, 즉 63의 배수이다.<br>
+                            두 자리 63의 배수는 63뿐이다. $A=63$.</p>
+
+                            <p><b>18</b><br>
+                            $\frac{1}{n}$이 유한소수가 되려면, 분모 $n$의 소인수가 2 또는 5뿐이어야 한다. ($1 \le n \le 100$)
+                            <ol>
+                                <li>1</li>
+                                <li>$2^a$ 꼴: 2, 4, 8, 16, 32, 64 (6개)</li>
+                                <li>$5^b$ 꼴: 5, 25 (2개)</li>
+                                <li>$2^a \times 5^b$ 꼴:<br>
+                                $2 \times 5 = 10$, $2^2 \times 5 = 20$, $2^3 \times 5 = 40$, $2^4 \times 5 = 80$ (4개)<br>
+                                $2 \times 5^2 = 50$, $2^2 \times 5^2 = 100$ (2개)</li>
+                            </ol>
+                            총 개수 = $1 + 6 + 2 + 4 + 2 = 15$개</p>
+                        </section>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="pagination-controls">
+                <button id="prevBtn" class="px-4 py-2 bg-indigo-500 text-white rounded font-semibold hover:bg-indigo-600 disabled:bg-gray-300">이전</button>
+                <span id="pageIndicator" class="mx-4 text-gray-700 font-semibold">Page 1 / 5</span>
+                <button id="nextBtn" class="px-4 py-2 bg-indigo-500 text-white rounded font-semibold hover:bg-indigo-600 disabled:bg-gray-300">다음</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // KaTeX 렌더링
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\(", right: "\\)", display: false},
+                    {left: "\\[", right: "\\]", display: true}
+                ],
+                throwOnError : false
+            });
+
+            // 페이지네이션 로직
+            const pages = document.querySelectorAll('.page');
+            const pageContainer = document.querySelector('.page-container');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const pageIndicator = document.getElementById('pageIndicator');
+            const navLinks = document.querySelectorAll('.sidebar a');
+            const totalPages = pages.length;
+            let currentPageIndex = 0;
+
+            function showPage(index) {
+                pages.forEach((page, i) => {
+                    page.classList.toggle('hidden', i !== index);
+                });
+                currentPageIndex = index;
+                pageIndicator.textContent = `Page ${index + 1} / ${totalPages}`;
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === totalPages - 1;
+                
+                // 페이지 변경 시 스크롤 상단으로
+                if (pageContainer) {
+                    pageContainer.scrollTop = 0;
+                }
+            }
+
+            prevBtn.addEventListener('click', () => {
+                if (currentPageIndex > 0) {
+                    showPage(currentPageIndex - 1);
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentPageIndex < totalPages - 1) {
+                    showPage(currentPageIndex + 1);
+                }
+            });
+
+            // 사이드바 네비게이션 로직
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        const targetPage = targetElement.closest('.page');
+                        if (targetPage) {
+                            const pageIndex = parseInt(targetPage.dataset.pageIndex, 10);
+                            showPage(pageIndex);
+                            
+                            // 페이지 보인 후 스크롤
+                            setTimeout(() => {
+                                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                
+                                // 활성 링크 업데이트
+                                navLinks.forEach(nav => nav.classList.remove('active'));
+                                if (link.classList.contains('level-2')) {
+                                    link.classList.add('active');
+                                }
+
+                            }, 100);
+                        }
+                    }
+                });
+            });
+
+            // 초기 페이지 로드
+            showPage(0);
+
+            // 인쇄 버튼
+            const printBtn = document.getElementById('printBtn');
+            if (printBtn) {
+                printBtn.addEventListener('click', () => {
+                    window.print();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
