@@ -62,6 +62,12 @@ def collect_segments(node: Tag) -> List[Segment]:
             if child.name == "br":
                 segments.append(("break", ""))
                 prev_was_block = False
+            elif child.name == "b":
+                # <b> 태그: 굵은 텍스트 시작/끝 마커 추가
+                segments.append(("bold_start", ""))
+                segments.extend(collect_segments(child))
+                segments.append(("bold_end", ""))
+                prev_was_block = False
             elif child.name in block_level_tags:
                 # 블록 레벨 태그: 형제 블록 사이에 줄바꿈 추가
                 if prev_was_block:
@@ -122,6 +128,10 @@ def insert_segments_into_hwp(hwp: Hwp, segments: List[Segment]) -> None:
             hwp.insert_text(segment[1] + " ")
         elif kind == "break":
             hwp.BreakPara()  # 단순 줄바꿈만 수행
+        elif kind == "bold_start":
+            hwp.set_font(Bold=True)
+        elif kind == "bold_end":
+            hwp.set_font(Bold=False)
         elif kind == "math":
             _, latex, mathml = segment
             if not mathml:
