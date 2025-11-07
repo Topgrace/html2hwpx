@@ -152,17 +152,28 @@ def create_full_hwpx(blocks, output_path: Path = OUTPUT_FULL) -> None:
     hwp.set_message_box_mode(0)
     hwp.HAction.Run("FileNew")
     
-    # 2단 레이아웃 설정
+    # 편집용지 설정 (좌우 여백 25mm)
+    hwp.HAction.GetDefault("PageSetup", hwp.HParameterSet.HSecDef.HSet)
+    hwp.HParameterSet.HSecDef.PageDef.LeftMargin = hwp.MiliToHwpUnit(25.0)
+    hwp.HParameterSet.HSecDef.PageDef.RightMargin = hwp.MiliToHwpUnit(25.0)
+    hwp.HParameterSet.HSecDef.HSet.SetItem("ApplyClass", 24)
+    hwp.HParameterSet.HSecDef.HSet.SetItem("ApplyTo", 3)
+    hwp.HAction.Execute("PageSetup", hwp.HParameterSet.HSecDef.HSet)
+    
+    # 2단 레이아웃 설정 (구분선 포함)
     hwp.HAction.GetDefault("MultiColumn", hwp.HParameterSet.HColDef.HSet)
     hwp.HParameterSet.HColDef.Count = 2
     hwp.HParameterSet.HColDef.SameSize = 1
+    hwp.HParameterSet.HColDef.SameGap = hwp.MiliToHwpUnit(8.0)  # 단 사이 간격 8mm
+    hwp.HParameterSet.HColDef.LineType = hwp.HwpLineType("Solid")  # 실선
+    hwp.HParameterSet.HColDef.LineWidth = hwp.HwpLineWidth("0.12mm")  # 선 굵기 0.12mm
     hwp.HParameterSet.HColDef.HSet.SetItem("ApplyClass", 832)
     hwp.HParameterSet.HColDef.HSet.SetItem("ApplyTo", 6)
     hwp.HAction.Execute("MultiColumn", hwp.HParameterSet.HColDef.HSet)
     
     # 커서를 문서 시작으로 이동 (안전을 위해)
     hwp.Run("MoveDocBegin")
-    
+
     for idx, (tag, segments) in enumerate(blocks):
         # section과 형제인 br은 빈 줄 삽입
         if tag == "section-br":
