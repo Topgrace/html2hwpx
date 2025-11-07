@@ -146,6 +146,26 @@ def insert_segments_into_hwp(hwp: Hwp, segments: List[Segment]) -> None:
                     pass
 
 
+def create_blockquote_table(hwp: Hwp) -> None:
+    """blockquote용 1x1 표를 생성한다."""
+    hwp.HAction.GetDefault("TableCreate", hwp.HParameterSet.HTableCreation.HSet)
+    hwp.HParameterSet.HTableCreation.Rows = 1
+    hwp.HParameterSet.HTableCreation.Cols = 1
+    hwp.HParameterSet.HTableCreation.WidthType = 2
+    hwp.HParameterSet.HTableCreation.HeightType = 0
+    hwp.HParameterSet.HTableCreation.WidthValue = hwp.MiliToHwpUnit(74.0)
+    hwp.HParameterSet.HTableCreation.HeightValue = hwp.MiliToHwpUnit(22.6)
+    hwp.HParameterSet.HTableCreation.CreateItemArray("ColWidth", 1)
+    hwp.HParameterSet.HTableCreation.ColWidth.SetItem(0, hwp.MiliToHwpUnit(70.4))
+    hwp.HParameterSet.HTableCreation.CreateItemArray("RowHeight", 1)
+    hwp.HParameterSet.HTableCreation.RowHeight.SetItem(0, hwp.MiliToHwpUnit(0.0))
+    hwp.HParameterSet.HTableCreation.TableProperties.HorzOffset = hwp.MiliToHwpUnit(0.0)
+    hwp.HParameterSet.HTableCreation.TableProperties.VertOffset = hwp.MiliToHwpUnit(0.0)
+    hwp.HParameterSet.HTableCreation.TableProperties.HorzRelTo = hwp.HorzRel("Para")
+    hwp.HParameterSet.HTableCreation.TableProperties.Width = 20978
+    hwp.HAction.Execute("TableCreate", hwp.HParameterSet.HTableCreation.HSet)
+
+
 def create_full_hwpx(blocks, output_path: Path = OUTPUT_FULL) -> None:
     """HTML에서 추출한 블록을 HWPX 문서로 저장한다."""
     hwp = Hwp(visible=False)
@@ -164,33 +184,38 @@ def create_full_hwpx(blocks, output_path: Path = OUTPUT_FULL) -> None:
     hwp.HAction.GetDefault("MultiColumn", hwp.HParameterSet.HColDef.HSet)
     hwp.HParameterSet.HColDef.Count = 2
     hwp.HParameterSet.HColDef.SameSize = 1
-    hwp.HParameterSet.HColDef.SameGap = hwp.MiliToHwpUnit(8.0)  # 단 사이 간격 8mm
-    hwp.HParameterSet.HColDef.LineType = hwp.HwpLineType("Solid")  # 실선
-    hwp.HParameterSet.HColDef.LineWidth = hwp.HwpLineWidth("0.12mm")  # 선 굵기 0.12mm
+    hwp.HParameterSet.HColDef.SameGap = hwp.MiliToHwpUnit(8.0)
+    hwp.HParameterSet.HColDef.LineType = hwp.HwpLineType("Solid")
+    hwp.HParameterSet.HColDef.LineWidth = hwp.HwpLineWidth("0.12mm")
     hwp.HParameterSet.HColDef.HSet.SetItem("ApplyClass", 832)
     hwp.HParameterSet.HColDef.HSet.SetItem("ApplyTo", 6)
     hwp.HAction.Execute("MultiColumn", hwp.HParameterSet.HColDef.HSet)
     
-    # 커서를 문서 시작으로 이동 (안전을 위해)
     hwp.Run("MoveDocBegin")
 
     for idx, (tag, segments) in enumerate(blocks):
-        # section과 형제인 br은 빈 줄 삽입
         if tag == "section-br":
             hwp.BreakPara()
             hwp.BreakPara()
             continue
         
         is_heading = tag in {"h1", "h2", "h3", "h4"}
+        is_blockquote = tag == "blockquote"
 
         if is_heading and idx > 0:
-            hwp.BreakPara()  # 제목 앞에 빈 줄 삽입
+            hwp.BreakPara()
 
         if is_heading:
             hwp.set_font(Bold=True)
 
-        insert_segments_into_hwp(hwp, segments)
-        hwp.BreakPara()
+        # blockquote는 표 안에 내용 삽입
+        if is_blockquote:
+            create_blockquote_table(hwp)
+            insert_segments_into_hwp(hwp, segments)
+            hwp.HAction.Run("MoveTopLevelEnd")  # 표 밖으로 나가기
+        else:
+            insert_segments_into_hwp(hwp, segments)
+            hwp.BreakPara()
 
         if is_heading:
             hwp.set_font(Bold=False)
