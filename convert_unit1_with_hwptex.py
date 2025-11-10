@@ -269,6 +269,10 @@ def insert_segments_into_hwp(hwp: Hwp, segments: List[Segment]) -> None:
                 hwp.HParameterSet.HEqEdit.EqFontName = "HYhwpEQ"
                 hwp.HParameterSet.HEqEdit.HSet.SetItem("String", hwp_equation)
                 hwp.HParameterSet.HEqEdit.BaseUnit = hwp.PointToHwpUnit(11.0)
+                
+                # 개체 속성: 글자처럼 취급 (TreatAsChar = True)
+                hwp.HParameterSet.HEqEdit.TreatAsChar = 1
+                
                 hwp.HAction.Execute("EquationCreate", hwp.HParameterSet.HEqEdit.HSet)
                 
                 # 수식 선택 해제: ESC 키로 선택 해제 후 오른쪽 화살표로 이동
