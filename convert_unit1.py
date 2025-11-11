@@ -236,5 +236,5 @@ def create_full_hwpx(blocks, output_path: Path = OUTPUT_FULL) -> None:
 
 
 if __name__ == "__main__":
-    blocks = extract_blocks(page_limit=1) 
+    blocks = extract_blocks(page_limit=None) 
     create_full_hwpx(blocks)
