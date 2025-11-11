@@ -1,13 +1,11 @@
 import os
 import re
+import sys
 from pathlib import Path
 from typing import List, Tuple, Union
 
 from bs4 import BeautifulSoup, NavigableString, Tag
 from pyhwpx import Hwp
-
-HTML_PATH = Path("unit1_sample.html")
-OUTPUT_FULL = Path("unit1_sample_hwptex.hwpx").resolve()
 
 MATH_PATTERN = re.compile(r'(\$[^$]+\$|\\\([^\\)]+\\\)|\\\[[^\\]]+\\\])')
 Segment = Union[Tuple[str, str], Tuple[str, str, str]]
@@ -280,9 +278,9 @@ def collect_segments(node: Tag) -> List[Segment]:
     return [seg for seg in segments if seg]
 
 
-def extract_blocks(page_limit: Union[int, None] = None):
+def extract_blocks(html_path: Path, page_limit: Union[int, None] = None):
     """본문에서 제목·문단·인용 블록을 순회하며 (태그, 세그먼트 목록)을 구성한다."""
-    soup = BeautifulSoup(HTML_PATH.read_text(encoding="utf-8"), "lxml")
+    soup = BeautifulSoup(html_path.read_text(encoding="utf-8"), "lxml")
     page_sections = soup.select(".page-content") or [soup.body]
 
     blocks = []
@@ -377,7 +375,7 @@ def create_blockquote_table(hwp: Hwp) -> None:
     hwp.HAction.Execute("TableCreate", hwp.HParameterSet.HTableCreation.HSet)
 
 
-def create_full_hwpx(blocks, output_path: Path = OUTPUT_FULL) -> None:
+def create_full_hwpx(blocks, output_path: Path) -> None:
     """HTML에서 추출한 블록을 HWPX 문서로 저장한다."""
     hwp = Hwp(visible=False)
     hwp.set_message_box_mode(0)
@@ -437,5 +435,26 @@ def create_full_hwpx(blocks, output_path: Path = OUTPUT_FULL) -> None:
 
 
 if __name__ == "__main__":
-    blocks = extract_blocks(page_limit=None) 
-    create_full_hwpx(blocks)
+    if len(sys.argv) < 2:
+        print("사용법: python convert_unit1_with_hwptex.py <입력HTML파일> [출력HWPX파일]")
+        print("예시: python convert_unit1_with_hwptex.py unit1_sample.html")
+        print("      python convert_unit1_with_hwptex.py unit1_sample.html output.hwpx")
+        sys.exit(1)
+    
+    # 입력 파일
+    html_path = Path(sys.argv[1])
+    if not html_path.exists():
+        print(f"[오류] 파일을 찾을 수 없습니다: {html_path}")
+        sys.exit(1)
+    
+    # 출력 파일 (지정하지 않으면 입력파일명_hwptex.hwpx)
+    if len(sys.argv) >= 3:
+        output_path = Path(sys.argv[2]).resolve()
+    else:
+        output_path = html_path.with_name(html_path.stem + "_hwptex.hwpx").resolve()
+    
+    print(f"[시작] HTML 파일: {html_path}")
+    print(f"[시작] 출력 파일: {output_path}")
+    
+    blocks = extract_blocks(html_path, page_limit=None) 
+    create_full_hwpx(blocks, output_path)
