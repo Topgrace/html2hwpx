@@ -13,6 +13,78 @@ MATH_PATTERN = re.compile(r'(\$[^$]+\$|\\\([^\\)]+\\\)|\\\[[^\\]]+\\\])')
 Segment = Union[Tuple[str, str], Tuple[str, str, str]]
 
 
+def find_matching_brace(text: str, start_pos: int) -> int:
+    """중괄호 '{' 위치가 주어졌을 때 매칭되는 '}' 위치를 찾는다."""
+    count = 1
+    pos = start_pos + 1
+    while pos < len(text) and count > 0:
+        if text[pos] == '{':
+            count += 1
+        elif text[pos] == '}':
+            count -= 1
+        pos += 1
+    return pos - 1 if count == 0 else -1
+
+
+def convert_frac_to_hwp(latex: str) -> str:
+    """중첩된 \frac를 한글 수식 문법으로 재귀적으로 변환한다."""
+    result = []
+    i = 0
+    while i < len(latex):
+        if latex[i:i+5] == r'\frac':
+            # \frac 발견
+            i += 5
+            # 공백 건너뛰기
+            while i < len(latex) and latex[i] == ' ':
+                i += 1
+            
+            if i >= len(latex) or latex[i] != '{':
+                result.append(r'\frac')
+                continue
+            
+            # 첫 번째 인자 추출 (분자)
+            start_pos = i
+            end_pos = find_matching_brace(latex, start_pos)
+            if end_pos == -1:
+                result.append(r'\frac{')
+                i += 1
+                continue
+            
+            numerator = latex[start_pos+1:end_pos]
+            i = end_pos + 1
+            
+            # 공백 건너뛰기
+            while i < len(latex) and latex[i] == ' ':
+                i += 1
+            
+            if i >= len(latex) or latex[i] != '{':
+                result.append(r'\frac{' + numerator + '}')
+                continue
+            
+            # 두 번째 인자 추출 (분모)
+            start_pos = i
+            end_pos = find_matching_brace(latex, start_pos)
+            if end_pos == -1:
+                result.append(r'\frac{' + numerator + '}{')
+                i += 1
+                continue
+            
+            denominator = latex[start_pos+1:end_pos]
+            i = end_pos + 1
+            
+            # 재귀적으로 변환
+            numerator_converted = convert_frac_to_hwp(numerator)
+            denominator_converted = convert_frac_to_hwp(denominator)
+            
+            # 한글 수식 문법으로 변환
+            result.append('{' + numerator_converted + '} over {' + denominator_converted + '}')
+        else:
+            result.append(latex[i])
+            i += 1
+    
+    return ''.join(result)
+
+
 def latex_to_hwp_equation(latex: str) -> str:
     """
     LaTeX 수식을 한글 수식 문법으로 변환한다.
@@ -31,8 +103,8 @@ def latex_to_hwp_equation(latex: str) -> str:
     
     # 기본적인 LaTeX 명령어를 한글 수식 문법으로 변환
     
-    # 분수: \frac{a}{b} -> {a} over {b}
-    hwp_eq = re.sub(r'\\frac\{([^}]+)\}\{([^}]+)\}', r'{\1} over {\2}', hwp_eq)
+    # 분수: \frac{a}{b} -> {a} over {b} (중첩 지원)
+    hwp_eq = convert_frac_to_hwp(hwp_eq)
     
     # 제곱근: \sqrt{x} -> sqrt {x}
     hwp_eq = re.sub(r'\\sqrt\{([^}]+)\}', r'sqrt {\1}', hwp_eq)
