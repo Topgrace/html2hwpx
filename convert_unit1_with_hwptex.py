@@ -60,10 +60,11 @@ def latex_to_hwp_equation(latex: str) -> str:
     
     # 화살표
     hwp_eq = hwp_eq.replace(r'\to', '->')
-    hwp_eq = hwp_eq.replace(r'\rightarrow', '->')
-    hwp_eq = hwp_eq.replace(r'\leftarrow', '<-')
-    hwp_eq = hwp_eq.replace(r'\Rightarrow', '=>')
-    hwp_eq = hwp_eq.replace(r'\Leftarrow', '<=')
+    hwp_eq = hwp_eq.replace(r'\rightarrow', 'rarrow')
+    hwp_eq = hwp_eq.replace(r'\Rightarrow', 'RARROW')
+    hwp_eq = hwp_eq.replace(r'\implies', 'RARROW')
+    hwp_eq = hwp_eq.replace(r'\leftarrow', 'larrow')
+    hwp_eq = hwp_eq.replace(r'\Leftarrow', 'LARROW')
     
     # 무한대: \infty -> inf
     hwp_eq = hwp_eq.replace(r'\infty', 'inf')
@@ -266,7 +267,8 @@ def insert_segments_into_hwp(hwp: Hwp, segments: List[Segment]) -> None:
                 hwp.HAction.GetDefault("EquationCreate", hwp.HParameterSet.HEqEdit.HSet)
                 hwp.HParameterSet.HEqEdit.Width = 1100
                 hwp.HParameterSet.HEqEdit.Height = 2580
-                hwp.HParameterSet.HEqEdit.EqFontName = "HYhwpEQ"
+                #hwp.HParameterSet.HEqEdit.EqFontName = "HYhwpEQ"
+                hwp.HParameterSet.HEqEdit.EqFontName = "HancomEQN"
                 hwp.HParameterSet.HEqEdit.HSet.SetItem("String", hwp_equation)
                 hwp.HParameterSet.HEqEdit.BaseUnit = hwp.PointToHwpUnit(11.0)
                 
