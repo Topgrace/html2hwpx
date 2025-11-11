@@ -83,7 +83,7 @@ def convert_frac_to_hwp(latex: str) -> str:
     return ''.join(result)
 
 
-def latex_to_hwp_equation(latex: str) -> str:
+def latex_to_hwp_equation(latex: str, max_length: int = 50) -> str:
     """
     LaTeX 수식을 한글 수식 문법으로 변환한다.
     
@@ -96,6 +96,7 @@ def latex_to_hwp_equation(latex: str) -> str:
     - 시그마: sum_{i=1} ^{n}
     - 극한: lim _{x -> 0}
     - 괄호: {  } 로 묶음
+    - 줄바꿈: # (한글 수식 내 줄바꿈)
     """
     hwp_eq = latex.strip()
     
@@ -205,6 +206,13 @@ def latex_to_hwp_equation(latex: str) -> str:
     
     # 공백 정리
     hwp_eq = re.sub(r'\s+', ' ', hwp_eq).strip()
+    
+    # 긴 수식에 줄바꿈 추가 (RARROW나 = 앞에서 줄바꿈)
+    if len(hwp_eq) > max_length:
+        # RARROW 앞에 줄바꿈 추가
+        hwp_eq = re.sub(r'\s+RARROW\s+', ' # RARROW ', hwp_eq)
+        # 등호(=) 앞에 줄바꿈 추가 (단, ==는 제외)
+        hwp_eq = re.sub(r'(?<!<)(?<!>)(?<!=)\s+=\s+(?!=)', ' # = ', hwp_eq)
     
     return hwp_eq
 
@@ -335,8 +343,8 @@ def insert_segments_into_hwp(hwp: Hwp, segments: List[Segment]) -> None:
             try:
                 # 한글 수식 직접 삽입
                 hwp.HAction.GetDefault("EquationCreate", hwp.HParameterSet.HEqEdit.HSet)
-                hwp.HParameterSet.HEqEdit.Width = 1100
-                hwp.HParameterSet.HEqEdit.Height = 2580
+                
+                # 수식 기본 설정
                 #hwp.HParameterSet.HEqEdit.EqFontName = "HYhwpEQ"
                 hwp.HParameterSet.HEqEdit.EqFontName = "HancomEQN"
                 hwp.HParameterSet.HEqEdit.HSet.SetItem("String", hwp_equation)
@@ -344,6 +352,10 @@ def insert_segments_into_hwp(hwp: Hwp, segments: List[Segment]) -> None:
                 
                 # 개체 속성: 글자처럼 취급 (TreatAsChar = True)
                 hwp.HParameterSet.HEqEdit.TreatAsChar = 1
+                
+                # 크기 자동 조정: Width와 Height를 0으로 설정하면 내용에 맞춰 자동 조정됨
+                hwp.HParameterSet.HEqEdit.Width = 0
+                hwp.HParameterSet.HEqEdit.Height = 0
                 
                 hwp.HAction.Execute("EquationCreate", hwp.HParameterSet.HEqEdit.HSet)
                 
