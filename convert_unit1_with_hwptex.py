@@ -426,6 +426,7 @@ def create_full_hwpx(blocks, output_path: Path) -> None:
         
         is_heading = tag in {"h1", "h2", "h3", "h4"}
         is_blockquote = tag == "blockquote"
+        is_paragraph = tag == "p"
 
         if is_heading and idx > 0:
             hwp.BreakPara()
@@ -441,6 +442,9 @@ def create_full_hwpx(blocks, output_path: Path) -> None:
         else:
             insert_segments_into_hwp(hwp, segments)
             hwp.BreakPara()
+            # <p> 태그인 경우 추가 빈 줄 삽입
+            if is_paragraph:
+                hwp.BreakPara()
 
         if is_heading:
             hwp.set_font(Bold=False)
