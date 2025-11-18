@@ -183,6 +183,9 @@ def latex_to_hwp_equation(latex: str, max_length: int = 50) -> str:
     hwp_eq = hwp_eq.replace(r'\in', 'in')
     hwp_eq = hwp_eq.replace(r'\notin', 'notin')
     
+    # 박스 기호
+    hwp_eq = hwp_eq.replace(r'\Box', 'box{}')
+    
     # 점 표시
     hwp_eq = hwp_eq.replace(r'\cdot', 'cdot')
     hwp_eq = hwp_eq.replace(r'\cdots', '...')
