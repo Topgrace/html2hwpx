@@ -109,6 +109,10 @@ def latex_to_hwp_equation(latex: str, max_length: int = 50) -> str:
     hwp_eq = re.sub(r'\\sqrt\{([^}]+)\}', r'sqrt {\1}', hwp_eq)
     hwp_eq = re.sub(r'\\sqrt\[([^]]+)\]\{([^}]+)\}', r'root {\1} of {\2}', hwp_eq)
     
+    # 거듭제곱: a^b -> a^{b} (괄호가 없는 단일 문자/숫자 거듭제곱)
+    # 이미 중괄호로 감싸진 경우는 제외하고, 단일 문자나 숫자만 중괄호로 감싸기
+    hwp_eq = re.sub(r'\^([^{\s])', r'^{\1}', hwp_eq)
+    
     # 점 장식: \dot{x} -> dot x
     hwp_eq = re.sub(r'\\dot\{([^}]+)\}', r'dot \1', hwp_eq)
     hwp_eq = re.sub(r'\\ddot\{([^}]+)\}', r'ddot \1', hwp_eq)
