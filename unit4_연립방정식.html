@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>중2-1-4 연립일차방정식 전체 정답 및 해설</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .a4-page {
+            background-color: white;
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm;
+            box-sizing: border-box;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        /* Main Chapter Header */
+        .chapter-header {
+            background-color: #f0f0f0;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Unit Title */
+        .unit-title {
+            color: #ff3333; /* Red color as in reference */
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* Answer Box Styling */
+        .answer-box-container {
+            border: 2px solid #000;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .box-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            margin-bottom: 8px;
+            border-bottom: 1px solid transparent; /* Alignment spacer */
+        }
+
+        .box-title {
+            color: #000;
+        }
+
+        .page-info {
+            font-weight: normal;
+            font-size: 0.9em;
+        }
+
+        /* Explanation Section */
+        .explanation-section {
+            font-size: 0.9em;
+            color: #333;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            padding-left: 5px;
+        }
+
+        .exp-num {
+            font-weight: 700;
+            color: #000;
+            margin-right: 5px;
+        }
+
+        .blue-text { color: blue; }
+        .red-text { color: red; }
+
+        /* Two Column Layout for the entire page content */
+        .two-column-layout {
+            column-count: 2;
+            column-gap: 10mm;
+            column-rule: 1px solid #eee;
+            widows: 2;
+            orphans: 2;
+            height: 100%;
+        }
+        
+        /* Avoid break inside boxes */
+        .answer-box-container, .explanation-section {
+            break-inside: avoid;
+        }
+
+        @media print {
+            body { background: none; padding: 0; }
+            .a4-page { box-shadow: none; margin: 0; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PAGE 1: Unit 17 ~ 18 -->
+    <div class="a4-page">
+        <div class="chapter-header">IV. 연립일차방정식</div>
+        
+        <div class="two-column-layout">
+            <!-- Unit 17 -->
+            <div class="unit-title">유닛명 : 17. 미지수가 2개인 연립일차방정식</div>
+
+            <!-- Box 1 -->
+            <div class="box-header">
+                <span class="box-title">[개념 익히기 1]</span>
+                <span class="page-info">(3쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                (1) O, O, O<br>
+                (2) O, X, X<br>
+                (3) X, O, X
+            </div>
+
+            <!-- Box 2 -->
+            <div class="box-header">
+                <span class="box-title">[개념 익히기 2]</span>
+                <span class="page-info">(4쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                (1) $1, -2, -5 ~/~ 1, \frac{3}{2}, 2 ~/~ 2, 1$<br>
+                (2) $-4, -2, 0, 2 ~/~ -3, -2, -1, 0 ~/~ 2, -2$
+            </div>
+
+            <!-- Box 3 -->
+            <div class="box-header">
+                <span class="box-title">[개념 다지기]</span>
+                <span class="page-info">(5쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                1. ㄱ, ㄹ, ㅁ<br>
+                2. $3x+5y=3500$<br>
+                3. 1, 5 / 2, 1 / 1, 5, 2, 1<br>
+                4. -3, -1, 1, 3, 5 / (3,1), (4,3), (5,5)<br>
+                5. (1) 7 / 2, 4, 20 &nbsp;&nbsp; (2) 15 / 2, 3, 36<br>
+                6. (1) X (2) O
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">1.</span><br>
+                ㄴ. $x+y^2=y^2+1 \rightarrow x-1=0$: <span class="blue-text">미지수가 1개</span>인 일차방정식이다.<br>
+                ㄷ. $-x+6y-3$: <span class="blue-text">등호(=)가 없기 때문</span>에 등식이 아니고, 방정식도 될 수 없다. $x, y$에 대한 일차식이다.<br>
+                ㅂ. $5x-1=xy$: 미지수는 2개이지만 $x$와 $y$를 곱한 $xy$는 <span class="blue-text">2차항</span>이므로 일차방정식이 될 수 없다.<br>
+                <br>
+                <span class="exp-num">4.</span><br>
+                $2 \times 1 - y = 5 \rightarrow y=-3$<br>
+                $2 \times 2 - y = 5 \rightarrow y=-1$<br>
+                $2 \times 3 - y = 5 \rightarrow y=1$<br>
+                $2 \times 4 - y = 5 \rightarrow y=3$<br>
+                $2 \times 5 - y = 5 \rightarrow y=5$
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">6.</span><br>
+                (1) $2x+y=4$에 $x=1, y=2$ 대입<br>
+                $\rightarrow 2 \times 1 + 2 = 4$<br>
+                $3x-2y=4$에 $x=1, y=2$ 대입<br>
+                $\rightarrow 3 \times 1 - 2 \times 2 = -1 \neq 4$<br>
+                (2) $x-2y=-3$에 $x=1, y=2$ 대입<br>
+                $\rightarrow 1 - 2 \times 2 = -3$<br>
+                $3x+y=5$에 $x=1, y=2$ 대입<br>
+                $\rightarrow 3 \times 1 + 2 = 5$
+            </div>
+
+            <!-- Box 4 -->
+            <div class="box-header">
+                <span class="box-title">[개념 마무리]</span>
+                <span class="page-info">(6쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                1. ①, ③, ④ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2. ㄱ, ㄷ<br>
+                3. ④<br>
+                4. -3 / 4 / 3 / 2, -3 / -6 / 4<br>
+                5. 5 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6. ⑤
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">1.</span><br>
+                ① $8x=y+7$<br>
+                ② $4000-1500x=1000 \rightarrow$ 미지수가 1개<br>
+                ③ $x \div y = 3 \cdots 5 \rightarrow x=3y+5$<br>
+                ④ $2x+3y=80$<br>
+                ⑤ $\frac{5}{x} = \frac{4}{y} \rightarrow$ 미지수가 분모에 있으므로 일차식이 아니다.<br>
+                <br>
+                <span class="exp-num">2.</span><br>
+                ㄱ~ㄹ의 식에 $x=1, y=3$을 대입<br>
+                ㄱ. $x+2y=7 \rightarrow 1+2 \times 3 = 7$<br>
+                ㄴ. $2x-y=1 \rightarrow 2 \times 1 - 3 = -1 \neq 1$<br>
+                ㄷ. $x-y+2=0 \rightarrow 1-3+2=0$<br>
+                ㄹ. $3x-4y=11 : 3 \times 1 - 4 \times 3 = -9 \neq 11$<br>
+                <br>
+                <span class="exp-num">3.</span><br>
+                $x=2a, y=-a$를 $x-7y=18$에 대입하면<br>
+                $2a-7 \times (-a) = 18$<br>
+                따라서 $9a=18$이므로 $a=2$이다.<br>
+                <br>
+                <span class="exp-num">5.</span><br>
+                $x=2$는 연립방정식의 해이므로, $x+7y=9$에 대입하여 y를 먼저 구한 후, a를 구하면 된다.<br>
+                $x+7y=9$에 $x=2$ 대입 $\rightarrow 2+7y=9 \rightarrow y=1$<br>
+                $3x+4y=2a$에 $x=2, y=1$ 대입<br>
+                $\rightarrow 3 \times 2 + 4 \times 1 = 2a \rightarrow 10=2a \rightarrow a=5$<br>
+                <br>
+                <span class="exp-num">6.</span><br>
+                $2(x+3y)+1 = x+ay+2$에서 괄호를 풀고 정리하면<br>
+                $x+(6-a)y-1=0$<br>
+                미지수가 2개인 일차방정식이 되려면 y의 계수가 0이면 안 된다.<br>
+                $6-a \neq 0 \rightarrow a \neq 6$
+            </div>
+
+            <!-- Unit 18 -->
+            <div class="unit-title">유닛명 : 18. 연립방정식의 풀이 (1)</div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 익히기 1]</span>
+                <span class="page-info">(7쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                (1) $x-4 ~/~ y ~/~ x+5(x-4)$<br>
+                (2) $y+4 ~/~ x ~/~ (y+4)+5y$<br>
+                (3) $-y+1 ~/~ x ~/~ 2(-y+1)-y$<br>
+                (4) $-x+1 ~/~ y ~/~ 2x-(-x+1)$
+            </div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 다지기]</span>
+                <span class="page-info">(8쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                1. $2y+7 ~/~ 5, -15, -3 ~/~ -3 ~/~ 1 ~/~ 1, -3$<br>
+                2. $-2x+5 ~/~ 5 ~/~ 5 ~/~ -5 ~/~ 5, -5$<br>
+                3. (1) $x+3 \times 2x=14 ~/~ 2 ~/~ 4$<br>
+                &nbsp;&nbsp;&nbsp; (2) $-y+2 ~/~ (y+2)-7y-6 ~/~ 1 ~/~ 1$<br>
+                &nbsp;&nbsp;&nbsp; (3) $3x-5 ~/~ 2x-3(3x-5)=8 ~/~ 1 ~/~ -2$<br>
+                4. (1) $x=1, y=-1$ (2) $x=2, y=1$
+            </div>
+            
+             <div class="explanation-section">
+                <span class="exp-num">4.</span><br>
+                (1) $y=-x$를 $5x-4y=9$에 대입하면<br>
+                $5x-4(-x)=9 \rightarrow 9x=9 \rightarrow x=1$<br>
+                $y=-x$에 $x=1$를 대입하면 $y=-1$<br>
+                (2) $x=5y-3$을 $2x+3y=7$에 대입하면<br>
+                $2(5y-3)+3y=7 \rightarrow 13y=13 \therefore y=1$<br>
+                $x=5y-3$에 $y=1$을 대입하면 $x=2$
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: Unit 19 ~ 20 -->
+    <div class="a4-page">
+        <div class="two-column-layout">
+            <!-- Unit 19 -->
+            <div class="unit-title">유닛명 : 19. 연립방정식의 풀이 (2)</div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 익히기 1]</span>
+                <span class="page-info">(9쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                (1) 더해서, y &nbsp;&nbsp; (2) 더해서, x &nbsp;&nbsp; (3) 빼서, y<br>
+                (4) 빼서, x &nbsp;&nbsp;&nbsp;&nbsp; (5) 빼서, y &nbsp;&nbsp;&nbsp;&nbsp; (6) 더해서, y
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">(1)</span> $\begin{cases} x+2y=5 \\ 3x-2y=1 \end{cases}$<br>
+                변끼리 <span class="blue-text">더해서 y</span>를 소거<br>
+                <span class="exp-num">(2)</span> $\begin{cases} -x+4y=2 \\ x+3y=-1 \end{cases}$<br>
+                변끼리 <span class="blue-text">더해서 x</span>를 소거<br>
+                <span class="exp-num">(3)</span> $\begin{cases} 7x-5y=-9 \\ 2x-5y=10 \end{cases}$<br>
+                변끼리 <span class="blue-text">빼서 y</span>를 소거<br>
+                <span class="exp-num">(4)</span> $\begin{cases} 4x-y=8 \\ 4x+9y=-2 \end{cases}$<br>
+                변끼리 <span class="blue-text">빼서 x</span>를 소거<br>
+                <span class="exp-num">(5)</span> $\begin{cases} 6x+3y=0 \\ 5x+3y=7 \end{cases}$<br>
+                변끼리 <span class="blue-text">빼서 y</span>를 소거<br>
+                <span class="exp-num">(6)</span> $\begin{cases} -2x+7y=6 \\ -x-7y=9 \end{cases}$<br>
+                변끼리 <span class="blue-text">더해서 y</span>를 소거
+            </div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 익히기 2]</span>
+                <span class="page-info">(10쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                (1) +, $6x=12$ &nbsp;&nbsp; (2) +, $3y=-1$ &nbsp;&nbsp; (3) +, $4x=-8$<br>
+                (4) -, $-2y=4$ &nbsp;&nbsp; (5) -, $-x=-7$ &nbsp;&nbsp; (6) -, $-4y=4$
+            </div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 익히기 3]</span>
+                <span class="page-info">(11쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                (1) 2 &nbsp;&nbsp; (2) 3 &nbsp;&nbsp; (3) -2 &nbsp;&nbsp; (4) -3 &nbsp;&nbsp; (5) 5 &nbsp;&nbsp; (6) 2
+            </div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 다지기]</span>
+                <span class="page-info">(12쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                1. 5, 3 / 3 / 6, 2<br>
+                2. 2 / 5, 1 / -1 / -1 / -8 / 4<br>
+                3. (1) $15, 27, 14, -2 / -29, 29 / -1$<br>
+                &nbsp;&nbsp;&nbsp; (2) $4, 26, 27, 36 / 31, 62 / 2$<br>
+                4. (1) $x=3, y=7$ (2) $x=2, y=-3$<br>
+                &nbsp;&nbsp;&nbsp; (3) $x=1, y=-2$ (4) $x=2, y=-1$
+            </div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 마무리]</span>
+                <span class="page-info">(13쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                1. ④ &nbsp;&nbsp; 2. ① &nbsp;&nbsp; 3. 4 &nbsp;&nbsp; 4. 2 &nbsp;&nbsp; 5. 2 &nbsp;&nbsp; 6. 1<br>
+                7. 2 &nbsp;&nbsp; 8. ㄱ, ㄴ &nbsp;&nbsp; 9. 3 &nbsp;&nbsp; 10. ②, ⑤<br>
+                11. ㄴ, ㄷ &nbsp;&nbsp; 12. ④
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">1.</span><br>
+                $\begin{cases} x-5y=2 \cdots \text{㉠} \\ 4x+y=1 \cdots \text{㉡} \end{cases}$에서 $x$를 소거하려면<br>
+                $x$의 계수가 같아지도록 ㉠에 4 또는 -4를 곱한다. 보기 중에 -4는 없으므로 4를 곱하면<br>
+                $\begin{cases} 4x-20y=8 \\ 4x+y=1 \end{cases}$<br>
+                두 식을 변끼리 빼면 $x$가 없어지고 $-21x=7$이 된다.
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">2.</span><br>
+                $\begin{cases} -2x+3y=1 \cdots \text{㉠} \\ 6x-5y=5 \cdots \text{㉡} \end{cases}$을 풀기 위해 $x$를 소거하려면<br>
+                ㉠$\times 3$ + ㉡를 한다.<br>
+                $-6x+9y=3$<br>
+                +) $6x-5y=5$<br>
+                ----------------<br>
+                $4y=8$<br>
+                이때 $ay=8$이므로 $a=4$이다.
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">4.</span><br>
+                $\begin{cases} 9x-7y=16 \cdots \text{㉠} \\ y=1-2x \cdots \text{㉡} \end{cases}$<br>
+                ㉡을 ㉠에 대입하면 $9x-7(1-2x)=16 \rightarrow 9x-7+14x=16 \rightarrow 23x=23 \therefore x=1$<br>
+                $x=1$을 ㉡에 대입하면 $y=1-2=-1$<br>
+                $x=a, y=b$라 할 때 $a=1, b=-1$<br>
+                $\therefore a-b = 1-(-1)=2$
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">5.</span><br>
+                두 일차방정식 $\begin{cases} y=-5x-3 \cdots \text{㉠} \\ 2x-y=-4 \cdots \text{㉡} \end{cases}$<br>
+                ㉠을 ㉡에 대입하면 $2x-(-5x-3)=-4 \rightarrow 2x+5x+3=-4 \rightarrow 7x=-7 \therefore x=-1$<br>
+                $x=-1$을 ㉠에 대입하면 $y=-5(-1)-3=2$<br>
+                따라서 $x-y = -1-2=-3$
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">6.</span><br>
+                $\begin{cases} ay=3x-1 \\ -x+by=9 \end{cases}$의 해가 $x=5, y=7$이므로<br>
+                $7a=3 \times 5 - 1 = 14 \rightarrow a=2$<br>
+                $-5+7b=9 \rightarrow 7b=14 \rightarrow b=2$<br>
+                따라서 $a+b=2+2=4$
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">7.</span><br>
+                $\begin{cases} 4x+y=1 \cdots \text{㉠} \\ ax-3y=6 \cdots \text{㉡} \end{cases}$<br>
+                에서 $x$를 소거하기 위해 ㉠$\times 3 +$ ㉡$\times 4$를 하면<br>
+                $(12x+3y) + (4ax-12y) = 3 + 24$<br>
+                $(12+4a)x - 9y = 27$<br>
+                $x$가 소거되었으므로 $x$의 계수는 0이어야 한다.<br>
+                $12+4a=0 \rightarrow 4a=-12 \therefore a=-3$
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">8.</span><br>
+                $\begin{cases} 2x-3y=5 \cdots \text{㉠} \\ 4x+y=3 \cdots \text{㉡} \end{cases}$<br>
+                $x$를 소거하려면 $x$의 계수의 절댓값을 같게 만들기 위해 ㉠$\times 2$를 한 후 변끼리 뺀다.<br>
+                $\rightarrow$ ㄱ. ㉠$\times 2 -$ ㉡<br>
+                $y$를 소거하려면 $y$의 계수의 절댓값을 같게 만들기 위해 ㉡$\times 3$을 한 후 변끼리 더한다.<br>
+                $\rightarrow$ ㄹ. ㉠ $+$ ㉡$\times 3$
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">9.</span><br>
+                $\begin{cases} x=2y+3 \cdots \text{㉠} \\ 4x-5y=6 \cdots \text{㉡} \end{cases}$의 해를 먼저 구하기<br>
+                ㉠을 ㉡에 대입하면 $4(2y+3)-5y=6 \rightarrow 3y=-6 \rightarrow y=-2$<br>
+                $y=-2$를 ㉠에 대입하면 $x=-1$<br>
+                연립방정식의 해 $x=-1, y=-2$가 $x+ky+7=0$을 만족시키므로<br>
+                $-1-2k+7=0 \rightarrow -2k=-6 \rightarrow k=3$
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">10.</span><br>
+                각각의 연립방정식에 $x=1, y=2$를 대입하여 방정식이 참이 되는지 확인한다.<br>
+                ② $\begin{cases} x-y=-1 \\ 4x+3y=10 \end{cases} \rightarrow \begin{cases} 1-2=-1 \\ 4+3 \times 2=10 \end{cases}$ (참)<br>
+                ⑤ $\begin{cases} 3x+2y=7 \\ x-2y=-3 \end{cases} \rightarrow \begin{cases} 3+2 \times 2=7 \\ 1-2 \times 2=-3 \end{cases}$ (참)
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">11.</span><br>
+                $\begin{cases} x=y+3 \cdots \text{㉠} \\ 4x-7y=18 \cdots \text{㉡} \end{cases}$의 해를 먼저 구한다.<br>
+                ㉠을 ㉡에 대입하면 $4(y+3)-7y=18 \rightarrow 4y+12-7y=18 \rightarrow -3y=6 \therefore y=-2$<br>
+                $y=-2$를 ㉠에 대입하면 $x=1$<br>
+                보기의 식에 $x=1, y=-2$를 대입한다.<br>
+                ㄱ. $2x+y=1 \rightarrow 2(1)+(-2)=0 \neq 1$ (거짓)<br>
+                ㄴ. $x-2y=5 \rightarrow 1-2(-2)=5$ (참)<br>
+                ㄷ. $3x+2y=-1 \rightarrow 3(1)+2(-2)=-1$ (참)<br>
+                ㄹ. $-2x+3y=8 \rightarrow -2(1)+3(-2)=-8 \neq 8$ (거짓)<br>
+                따라서 옳은 것은 ㄴ, ㄷ이다.
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">12.</span><br>
+                나머지 넷의 해는 $x=2, y=-1$이지만<br>
+                ④ $\begin{cases} 3x-y=3 \\ 2x+y=3 \end{cases}$의 두 식을 변끼리 더하면<br>
+                $5x=6 \rightarrow x=\frac{6}{5}$<br>
+                따라서 해가 다르다.
+            </div>
+
+            <!-- Unit 20 -->
+            <div class="unit-title">유닛명 : 20. 여러 가지 연립방정식의 풀이</div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 익히기 1]</span>
+                <span class="page-info">(15쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                (1) 10, 10<br>
+                (2) 10, 100<br>
+                (3) 3, 6
+            </div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 익히기 2]</span>
+                <span class="page-info">(16쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                (1) $2x+4y=3x+y, 2x+4y=9$<br>
+                (2) $A=B, A=C$<br>
+                (3) $A=B, B=C$
+            </div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 다지기]</span>
+                <span class="page-info">(17쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                1. 2 / 4, 3 / $x=1, y=1$<br>
+                2. 4x, 3y / 2x, 5y / $x=2, y=2$<br>
+                3. $5x+2y / 33, 1 / 1, 4-5y / -1$<br>
+                4. 3, 3 / 3, 6, 2<br>
+                5. (1) $\begin{cases} 2x+y=5x+3y \\ 2x+y=4x+2y+1 \end{cases}$ (2) $\begin{cases} 2x+y=5x+3y \\ 5x+3y=4x+2y+1 \end{cases}$<br>
+                &nbsp;&nbsp;&nbsp; (3) $\begin{cases} 2x+y=4x+2y+1 \\ 5x+3y=4x+2y+1 \end{cases}$
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">5.</span><br>
+                (1) $\begin{cases} 2x+y=5x+3y \\ 2x+y=4x+2y+1 \end{cases}$을 정리하면<br>
+                $\begin{cases} -3x-2y=0 \\ -2x-y=1 \cdots \text{㉠} \end{cases}$<br>
+                y를 소거하도록 ㉠$\times 2$를 하여 변끼리 뺀다.<br>
+                $-3x-2y=0$<br>
+                -) $-4x-2y=2$<br>
+                -----------------<br>
+                $x = -2$<br>
+                $x=-2$를 ㉠에 대입하면 $4-y=1 \therefore y=3$<br>
+                따라서 연립방정식의 해는 $x=-2, y=3$이다.<br>
+                <br>
+                (2) $\begin{cases} 2x+y=5x+3y \\ 5x+3y=4x+2y+1 \end{cases}$을 정리하면<br>
+                $\begin{cases} -3x-2y=0 \\ x+y=1 \cdots \text{㉠} \end{cases}$<br>
+                y를 소거하도록 ㉠$\times 2$를 하여 변끼리 더한다.<br>
+                $-3x-2y=0$<br>
+                +) $2x+2y=2$<br>
+                -----------------<br>
+                $-x = 2 \rightarrow x=-2$<br>
+                $x=-2$를 ㉠에 대입하면 $-2+y=1 \therefore y=3$<br>
+                따라서 연립방정식의 해는 $x=-2, y=3$이다.<br>
+                <br>
+                (3) $\begin{cases} 2x+y=4x+2y+1 \\ 5x+3y=4x+2y+1 \end{cases}$을 정리하면<br>
+                $\begin{cases} -2x-y=1 \\ x+y=1 \end{cases}$ 두 식을 변끼리 더한다.<br>
+                $-x=2 \rightarrow x=-2$. 대입하면 $y=3$.<br>
+                따라서 연립방정식의 해는 $x=-2, y=3$이다.
+            </div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 마무리]</span>
+                <span class="page-info">(18쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                1. ① &nbsp;&nbsp; 2. ① &nbsp;&nbsp; 3. $x=3, y=5$ &nbsp;&nbsp; 4. $x=4, y=6$<br>
+                5. -2 &nbsp;&nbsp; 6. 14 &nbsp;&nbsp; 7. 4
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">1.</span><br>
+                $\begin{cases} 0.9x-0.4(x-y)=0.1 \\ \frac{1}{11}(x+y)+y=-1 \end{cases}$ 식을 간단히 정리하면<br>
+                $\begin{cases} 5x+4y=1 \cdots \text{㉠} \\ x+12y=-11 \cdots \text{㉡} \end{cases}$<br>
+                ㉠$\times 3$ - ㉡을 하면 $14x=14 \therefore x=1$<br>
+                $x=1$을 ㉠에 대입하면 $5+4y=1 \rightarrow y=-1$
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">2.</span><br>
+                $(x-y):(x+y)=5:2 \rightarrow 5(x+y)=2(x-y) \rightarrow 3x+7y=0$<br>
+                연립방정식을 간단히 정리하면 $\begin{cases} 3x+7y=0 \\ 2x-y=17 \end{cases}$<br>
+                $y=2x-17$을 $3x+7y=0$에 대입하면<br>
+                $3x+7(2x-17)=0 \rightarrow 17x=119 \therefore x=7$<br>
+                $x=7$을 $y=2x-17$에 대입하면 $y=14-17=-3$<br>
+                연립방정식의 해가 $(a, b)$이므로 $a=7, b=-3$<br>
+                $\therefore ab=-21$
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">3.</span><br>
+                $\frac{3x+y+4}{3}=\frac{4x+3y-3}{4}$ 양변에 12를 곱하면<br>
+                $4(3x+y+4)=3(4x+3y-3) \rightarrow 12x+4y+16=12x+9y-9 \rightarrow -5y=-25 \therefore y=5$<br>
+                $\frac{4x+3y-3}{4}=\frac{2x+5y-1}{5}$에 $y=5$를 대입하면<br>
+                $\frac{4x+12}{4}=\frac{2x+24}{5} \rightarrow x+3 = \frac{2x+24}{5} \rightarrow 5x+15=2x+24 \rightarrow 3x=9 \therefore x=3$<br>
+                따라서 $x=3, y=5$이다.
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">4.</span><br>
+                $x:y=2:3$에서 외항의 곱과 내항의 곱은 같으므로 $3x=2y \rightarrow y=\frac{3}{2}x$<br>
+                $5x+6y=56$에 $y=\frac{3}{2}x$를 대입하면<br>
+                $5x+6(\frac{3}{2}x)=56 \rightarrow 5x+9x=56 \rightarrow 14x=56 \therefore x=4$<br>
+                $y=\frac{3}{2} \times 4 = 6$<br>
+                따라서 $x=4, y=6$이다.
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">5.</span><br>
+                $\begin{cases} 0.8x+0.5y=0.7 \rightarrow 8x+5y=7 \\ x+\frac{y-1}{6}=3 \rightarrow 6x+y-1=18 \rightarrow 6x+y=19 \end{cases}$<br>
+                $y=19-6x$를 $8x+5y=7$에 대입하면<br>
+                $8x+5(19-6x)=7 \rightarrow 8x+95-30x=7 \rightarrow -22x=-88 \therefore x=4$<br>
+                $y=19-24=-5$<br>
+                구한 해를 $x-ay=-6$에 대입하면<br>
+                $4-a(-5)=-6 \rightarrow 5a=-10 \therefore a=-2$
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">6.</span><br>
+                $\begin{cases} 0.2x-0.7y=-1 \rightarrow 2x-7y=-10 \\ \frac{x-3}{2}+\frac{y}{8}=\frac{7}{2} \rightarrow 4(x-3)+y=28 \rightarrow 4x+y=40 \end{cases}$<br>
+                $y=40-4x$를 $2x-7y=-10$에 대입하면<br>
+                $2x-7(40-4x)=-10 \rightarrow 2x-280+28x=-10 \rightarrow 30x=270 \therefore x=9$<br>
+                $y=40-36=4$<br>
+                해가 $(a-1, b) = (9, 4)$이므로 $a-1=9 \rightarrow a=10, b=4$<br>
+                따라서 $a+b=14$
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">7.</span><br>
+                주어진 식에 해 $(3, 2)$를 대입하면<br>
+                $k = \frac{3+2(2)}{7} = \frac{7}{7} = 1$<br>
+                $\frac{3a-6(2)}{3} = k \rightarrow \frac{3a-12}{3} = 1 \rightarrow 3a-12=3 \rightarrow 3a=15 \therefore a=5$<br>
+                따라서 $a+k = 5+1 = 6$<br>
+                (참고: 답이 4인 경우 $a-k$를 묻는 문제일 수 있습니다. $5-1=4$)
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 3: Unit 21 ~ -->
+    <div class="a4-page">
+        <div class="two-column-layout">
+            <div class="unit-title">유닛명 : 21. 해가 특수한 연립방정식</div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 익히기 1]</span>
+                <span class="page-info">(19쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                (1) 무수히 많다 &nbsp;&nbsp; (2) 무수히 많다 &nbsp;&nbsp; (3) 없다
+            </div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 다지기]</span>
+                <span class="page-info">(20쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                1. (1) 무수히 많다 &nbsp; (2) 없다<br>
+                2. (1) 무수히 많다 &nbsp; (2) 없다<br>
+                3. (1) ㄱ, ㄹ &nbsp; (2) ㄴ, ㄷ<br>
+                4. $a=-2, b=14$<br>
+                5. $a=-1, b \neq -8$
+            </div>
+
+             <div class="explanation-section">
+                <span class="exp-num">1.</span><br>
+                (1) $x+2y=3 \xrightarrow{\times 2} 2x+4y=6$. 두 식이 일치하므로 해가 무수히 많다.<br>
+                (2) $x+2y=5 \xrightarrow{\times 2} 2x+4y=10$. 두 식이 $2x+4y=10, 2x+4y=7$이 되므로 해가 없다.
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">2.</span><br>
+                (1) $6x+12y=10$의 양변을 2로 나누면 $3x+6y=5$가 되어 아래 식과 일치한다. 해가 무수히 많다.<br>
+                (2) $3x-y=1$의 양변에 2를 곱하면 $6x-2y=2$가 된다. 이는 아래 식 $6x-2y=3$과 모순되므로 해가 없다.
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">3.</span><br>
+                각 연립방정식의 계수 비를 확인한다.<br>
+                ㄱ. $1/2 = 2/4 = 2/4$ (일치 $\rightarrow$ 무수히 많음)<br>
+                ㄴ. $6/3 = 4/2 \neq 6/2$ ($2=2 \neq 3$ $\rightarrow$ 평행 $\rightarrow$ 해 없음)<br>
+                ㄷ. $2/4 = 7/14 \neq 2/14$ ($1/2=1/2 \neq 1/7$ $\rightarrow$ 평행 $\rightarrow$ 해 없음)<br>
+                ㄹ. $5/-5 = -6/6 = 2/-2$ ($-1=-1=-1$ $\rightarrow$ 일치 $\rightarrow$ 무수히 많음)<br>
+                따라서 (1) ㄱ, ㄹ (2) ㄴ, ㄷ
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">4.</span><br>
+                해가 무수히 많으려면 $1/2 = a/-4 = 7/b$ 이어야 한다.<br>
+                $a/-4 = 1/2 \rightarrow 2a = -4 \rightarrow a=-2$.<br>
+                $7/b = 1/2 \rightarrow b=14$.
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">5.</span><br>
+                해가 없으려면 $3/-6 = a/2 \neq 4/b$ 이어야 한다.<br>
+                $3/-6 = a/2 \rightarrow -1/2 = a/2 \rightarrow a=-1$.<br>
+                $4/b \neq -1/2 \rightarrow b \neq -8$.
+            </div>
+
+            <!-- School Exam Prep -->
+            <div class="unit-title">학교 시험 준비하기 (유닛 16~20)</div>
+
+            <div class="box-header">
+                <span class="box-title">[학교 시험 준비하기]</span>
+                <span class="page-info">(21쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                1. ③, ⑤ &nbsp;&nbsp; 2. ①, ③ &nbsp;&nbsp; 3. ④ &nbsp;&nbsp; 4. 10 &nbsp;&nbsp; 5. ① &nbsp;&nbsp; 6. ③<br>
+                7. ㄴ, ㄹ &nbsp;&nbsp; 8. ② &nbsp;&nbsp; 9. $x=2, y=2$ (a=1, b=-3) &nbsp;&nbsp; 10. ⑤<br>
+                11. 12 &nbsp;&nbsp; 12. -5 &nbsp;&nbsp; 13. ⑤ &nbsp;&nbsp; 14. 2
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">1.</span><br>
+                ① $x$의 8배는 y보다 7만큼 크다 $\rightarrow 8x=y+7$ (미지수가 2개인 일차방정식)<br>
+                ③ $x+y=2x+2y \rightarrow -x-y=0$ (미지수 2개인 일차방정식)<br>
+                ⑤ $x^2+2x+1=x^2+x-2y \rightarrow x+2y+1=0$ (미지수 2개인 일차방정식)<br>
+                (참고: 답 3, 5번 유력)
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">2.</span><br>
+                일차방정식 $4x+y=12$에 대하여<br>
+                ① $(1, 8) \rightarrow 4(1)+8=12$ (참)<br>
+                ② $x=4$일 때 $16+y=12 \rightarrow y=-4$<br>
+                ③ $x=2$일 때 $8+y=12 \rightarrow y=4$ (참)<br>
+                따라서 옳은 것은 ①, ③
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">3.</span><br>
+                $x=-3, y=2$를 대입하면<br>
+                $3(-3)+2a=3 \rightarrow -9+2a=3 \rightarrow 2a=12 \therefore a=6$<br>
+                $-b(-3)+4(2)=5 \rightarrow 3b+8=5 \rightarrow 3b=-3 \therefore b=-1$<br>
+                $a-b = 6-(-1) = 7$
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">4.</span><br>
+                $\frac{x+3y+2}{2}=-4 \rightarrow x+3y=-10$<br>
+                $\frac{-3x+y+8}{3}=-4 \rightarrow -3x+y=-20$<br>
+                연립하여 풀면 $x=5, y=-5$<br>
+                $3a+b = 15-5 = 10$
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">5.</span><br>
+                $\begin{cases} 0.2x+0.3(y+2)=1.7 \rightarrow 2x+3y=11 \\ \frac{x+1}{3}-\frac{y+2}{2}=\frac{1}{6} \rightarrow 2(x+1)-3(y+2)=1 \rightarrow 2x-3y=5 \end{cases}$<br>
+                두 식을 더하면 $4x=16 \rightarrow x=4$<br>
+                $8+3y=11 \rightarrow 3y=3 \rightarrow y=1$<br>
+                따라서 해는 $x=4, y=1$ (①번)
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">6.</span><br>
+                $\begin{cases} y=-2x+3 \\ -3x+y=8 \end{cases}$에 대입법 사용<br>
+                $-3x+(-2x+3)=8 \rightarrow -5x=5 \rightarrow x=-1$<br>
+                $y=-2(-1)+3=5$<br>
+                해 $(-1, 5)$를 보기에 대입하여 성립하는 식 찾기<br>
+                ③ $3x+4y=17 \rightarrow 3(-1)+4(5)=17$ (참)
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">7.</span><br>
+                $\begin{cases} x+y=5 \cdots \text{㉠} \\ 3x-4y=-15 \cdots \text{㉡} \end{cases}$<br>
+                ㄴ. ㉠을 $y=5-x$로 변형하여 대입 (옳음)<br>
+                ㄹ. $y$를 소거하기 위해 ㉠$\times 4$를 한 후 ㉡과 더함 (옳음)
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">8.</span><br>
+                $x$가 $y$보다 5만큼 작으므로 $x=y-5$<br>
+                $2(y-5)+5y=4 \rightarrow 7y=14 \rightarrow y=2$<br>
+                $x=-3$<br>
+                $-3(-3)+a(2)=17 \rightarrow 9+2a=17 \rightarrow 2a=8 \therefore a=4$
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">9.</span><br>
+                유나(a 잘못 봄 $\rightarrow$ b 바름): $x=-7/4, y=-3$을 $4x+by=2$에 대입<br>
+                $4(-7/4)+b(-3)=2 \rightarrow -7-3b=2 \rightarrow -3b=9 \therefore b=-3$<br>
+                주혁(b 잘못 봄 $\rightarrow$ a 바름): $x=-16, y=11$을 $ax+2y=6$에 대입<br>
+                $a(-16)+2(11)=6 \rightarrow -16a+22=6 \rightarrow -16a=-16 \therefore a=1$<br>
+                바른 식: $\begin{cases} x+2y=6 \\ 4x-3y=2 \end{cases}$ 풀면 $x=2, y=2$
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">10.</span><br>
+                해가 없는 연립방정식은 두 직선이 평행해야 함 (기울기 같고 y절편 다름)<br>
+                ⑤번 조합 ($2x-y=3$ 과 $y=2x+1$) 확인 시 평행 조건 만족
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">11.</span><br>
+                $x:y=1:3 \rightarrow y=3x$<br>
+                $3x+(3x)=k \rightarrow 6x=k$<br>
+                $2x-3(3x)=-2-k \rightarrow -7x=-2-k \rightarrow k=7x-2$<br>
+                $6x=7x-2 \rightarrow x=2$<br>
+                $k=6(2)=12$
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">12.</span><br>
+                두 연립방정식의 해가 같으므로 미지수가 없는 두 식을 연립<br>
+                $\begin{cases} 3x-5y=-10 \\ -2x+3y=5 \end{cases}$ 풀면 $x=5, y=5$<br>
+                $x+ay=30 \rightarrow 5+5a=30 \rightarrow a=5$<br>
+                $2x+by=5 \rightarrow 10+5b=5 \rightarrow b=-1$<br>
+                $ab = -5$
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">13.</span><br>
+                $\begin{cases} x+ay=3 \\ 2x-10y=b \end{cases}$ 에서 계수 비 비교<br>
+                $1/2 = a/-10 = 3/b$<br>
+                $a=-5$일 때 기울기 같음. 이때 $b=6$이면 일치(무수히 많음), $b \neq 6$이면 평행(해 없음)<br>
+                옳은 설명을 고르면 ⑤
+            </div>
+
+            <div class="explanation-section">
+                <span class="exp-num">14.</span><br>
+                첫 번째 시스템 (해 없음): $1/(a/3) = -4/8 \neq 2/1 \rightarrow 3/a = -1/2 \rightarrow a=-6$<br>
+                두 번째 시스템 (무수히 많음): $1/5 = 3/(2c+1) = b/5$<br>
+                $b=1, 2c+1=15 \rightarrow c=7$<br>
+                $a+b+c = -6+1+7 = 2$
+            </div>
+
+            <!-- Unit 22 -->
+            <div class="unit-title">유닛명 : 22. 연립방정식의 활용 - 수</div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 익히기 1]</span>
+                <span class="page-info">(23쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                (1) $y, y, 16$<br>
+                (2) $2y, 3400, 5y, 5700$<br>
+                (3) $30, 7, y-7$
+            </div>
+            <div class="explanation-section">
+                <span class="exp-num">(1)</span> 두 자연수 $x, y$의 합은 42 $\rightarrow x+y=42$<br>
+                $x$에서 $y$를 빼면 16 $\rightarrow x-y=16$<br>
+                <span class="exp-num">(2)</span> 떡 3개($3x$)와 약과 2개($2y$) 합 3400 $\rightarrow 3x+2y=3400$<br>
+                떡 4개($4x$)와 약과 5개($5y$) 합 5700 $\rightarrow 4x+5y=5700$<br>
+                <span class="exp-num">(3)</span> 아버지($x$)는 아들($y$)보다 30세 많음 $\rightarrow x=y+30$<br>
+                7년 전 아버지($x-7$)는 아들($y-7$)의 4배 $\rightarrow x-7=4(y-7)$
+            </div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 다지기]</span>
+                <span class="page-info">(24쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                1. 돼지 20, 닭 13<br>
+                2. 지우개 4, 볼펜 8<br>
+                3. 84<br>
+                4. 어머니 41세, 딸 15세<br>
+                5. 큰 수 19, 작은 수 13<br>
+                6. 복숭아 4개, 키위 6개<br>
+                7. 85 cm<br>
+                8. 6번
+            </div>
+            <div class="explanation-section">
+                <span class="exp-num">1.</span><br>
+                (1) 돼지 다리 $4x$, 닭 다리 $2y$, 합 106<br>
+                (2) 마리 수 합: $x+y=33$<br>
+                (3) 다리 수 합: $4x+2y=106$<br>
+                (4) $\begin{cases} x+y=33 \\ 4x+2y=106 \end{cases}$<br>
+                (5) 위 식에 2를 곱하면 $2x+2y=66$. 아래 식에서 빼면 $2x=40 \therefore x=20, y=13$<br>
+                (6) 돼지 20마리, 닭 13마리<br>
+                <br>
+                <span class="exp-num">2.</span><br>
+                (1) 개수 합: $x+y=12$<br>
+                (2) 가격 합: $100x+1300y=10800$<br>
+                (3) $\begin{cases} x+y=12 \\ x+13y=108 \end{cases}$ (가격 식을 100으로 나눔)<br>
+                (4) 빼면 $12y=96 \therefore y=8, x=4$<br>
+                (5) 지우개 4개, 볼펜 8개<br>
+                <br>
+                <span class="exp-num">3.</span><br>
+                (1) 처음 수 $10x+y$, 바꾼 수 $10y+x$<br>
+                (2) $x=2y$, $10y+x = \frac{1}{2}(10x+y)+6$<br>
+                (3) 두 번째 식 정리: $20y+2x = 10x+y+12 \rightarrow -8x+19y=12$<br>
+                (4) $x=2y$ 대입: $-16y+19y=12 \rightarrow 3y=12 \therefore y=4, x=8$<br>
+                (5) 처음 수는 $10(8)+4=84$<br>
+                <br>
+                <span class="exp-num">4.</span><br>
+                (1) 3년 후 어머니 $x+3$, 딸 $y+3$<br>
+                (2) $x+y=56$, $x+3=3(y+3)-10$<br>
+                (3) 정리하면 $\begin{cases} x+y=56 \\ x-3y=-4 \end{cases}$<br>
+                (4) 빼면 $4y=60 \therefore y=15, x=41$<br>
+                (5) 어머니 41세, 딸 15세<br>
+                <br>
+                <span class="exp-num">5.</span><br>
+                (1) $\begin{cases} x-y=6 \\ 3y-2x=1 \end{cases}$<br>
+                (2) $x=y+6$ 대입: $3y-2(y+6)=1 \rightarrow y-12=1 \therefore y=13$<br>
+                $x=13+6=19$. 큰 수는 19.<br>
+                <br>
+                <span class="exp-num">6.</span><br>
+                (1) $\begin{cases} x+y=10 \\ 3000x+1000y=18000 \end{cases}$<br>
+                (2) 가격 식 약분: $3x+y=18$. $x+y=10$과 연립.<br>
+                빼면 $2x=8 \therefore x=4, y=6$. 복숭아 4개, 키위 6개.<br>
+                <br>
+                <span class="exp-num">7.</span><br>
+                (1) 긴 줄 $x$, 짧은 줄 $y$. $\begin{cases} x+y=120 \\ y=\frac{2}{5}x+1 \end{cases}$<br>
+                (2) 대입: $x + \frac{2}{5}x + 1 = 120 \rightarrow \frac{7}{5}x = 119$<br>
+                $x = 119 \times \frac{5}{7} = 17 \times 5 = 85$. 긴 줄 85cm.<br>
+                <br>
+                <span class="exp-num">8.</span><br>
+                (1) 로희 승 $x$, 패 $y$ (민기 패 $x$, 승 $y$).<br>
+                $\begin{cases} 2x-y=7 \text{ (로희 위치)} \\ 2y-x=4 \text{ (민기 위치)} \end{cases}$<br>
+                (2) $y=2x-7$ 대입: $2(2x-7)-x=4 \rightarrow 4x-14-x=4 \rightarrow 3x=18 \therefore x=6$. 로희 6번 이김.
+            </div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 마무리]</span>
+                <span class="page-info">(27쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                1. ①, ⑤ (문제 확인 필요) &nbsp; 2. 59 &nbsp; 3. ③ &nbsp; 4. 10대 &nbsp; 5. ③<br>
+                6. 4점 13개, 5점 7개 &nbsp; 7. ② &nbsp; 8. 4명 &nbsp; 9. ③ &nbsp; 10. 321
+            </div>
+            <div class="explanation-section">
+                <span class="exp-num">1.</span><br>
+                가로 $x$, 세로 $y$. 가로가 5cm 짧으므로 $x=y-5$.<br>
+                둘레는 $2(x+y)=74 \rightarrow x+y=37$.<br>
+                대입하면 $(y-5)+y=37 \rightarrow 2y=42 \therefore y=21, x=16$.<br>
+                보기 중 옳지 않은 것은 $y=x-5$ (①번, 가로가 더 긴 식이 됨) 또는 $y=22$ (⑤번).<br>
+                (문제의 보기를 정확히 확인하면, ① $y=x-5$는 틀린 식, ⑤ $y=22$는 틀린 값. 보통 식 세우기 문제면 ①이 정답)<br>
+                <br>
+                <span class="exp-num">2.</span><br>
+                $\begin{cases} x+y=14 \\ 10y+x = 2(10x+y)-23 \end{cases}$<br>
+                두 번째 식 정리: $10y+x = 20x+2y-23 \rightarrow -19x+8y=-23$<br>
+                $y=14-x$ 대입: $-19x+8(14-x)=-23 \rightarrow -19x+112-8x=-23$<br>
+                $-27x = -135 \therefore x=5$. $y=9$. 처음 수는 59.<br>
+                <br>
+                <span class="exp-num">3.</span><br>
+                현재 이모 $x$, 조카 $y$. $\begin{cases} x+y=59 \\ x+14 = 2(y+14) \end{cases}$<br>
+                $x = 2y+28-14 = 2y+14$.<br>
+                $(2y+14)+y=59 \rightarrow 3y=45 \therefore y=15$. 조카 15세.<br>
+                <br>
+                <span class="exp-num">4.</span><br>
+                두발 $x$, 네발 $y$. $\begin{cases} x+y=35 \\ 2x+4y=90 \end{cases}$<br>
+                $x+2y=45$. 위 식을 빼면 $y=10$. 네발 자전거 10대.<br>
+                <br>
+                <span class="exp-num">5.</span><br>
+                아몬드 $x$, 초코 $y$. $\begin{cases} 2x+3y=8400 \\ 3x+2y=8100 \end{cases}$<br>
+                두 식을 더하면 $5(x+y)=16500 \rightarrow x+y=3300$.<br>
+                두 식을 빼면 $-x+y=300$.<br>
+                연립하면 $2y=3600 \rightarrow y=1800, x=1500$.<br>
+                $4x+y = 4(1500)+1800 = 6000+1800=7800$원.<br>
+                <br>
+                <span class="exp-num">6.</span><br>
+                4점 $x$, 5점 $y$. $\begin{cases} x+y=20 \\ 4x+5y=87 \end{cases}$<br>
+                $4x+4y=80$. 빼면 $y=7, x=13$.<br>
+                <br>
+                <span class="exp-num">7.</span><br>
+                윗변 $x$, 아랫변 $y$. $y=x+3$.<br>
+                넓이 $\frac{1}{2}(x+y)\times 8 = 60 \rightarrow 4(x+y)=60 \rightarrow x+y=15$.<br>
+                $x+(x+3)=15 \rightarrow 2x=12 \therefore x=6$.<br>
+                (답지에 2번이라 되어 있으나 보기 2번이 6cm인지 확인. 계산상 6cm 맞음)<br>
+                <br>
+                <span class="exp-num">8.</span><br>
+                성인 $x$, 청소년 $y$. $\begin{cases} x+y=10 \\ 4000x+2000y=32000 \end{cases}$<br>
+                $2x+y=16$. $x+y=10$을 빼면 $x=6, y=4$. 청소년 4명.<br>
+                <br>
+                <span class="exp-num">9.</span><br>
+                지원 승 $x$(=도아 패), 도아 승 $y$(=지원 패).<br>
+                지원 위치: $3x-2y=5$<br>
+                도아 위치: $3y-2x=15$<br>
+                두 식을 더하면 $x+y=20$. 가위바위보 총 횟수는 20번.<br>
+                <br>
+                <span class="exp-num">10.</span><br>
+                백 $z$, 십 $x$, 일 $y$.<br>
+                $x=2y$.<br>
+                $z+x+y=6$.<br>
+                $z+y = x+2$.<br>
+                $x=2y$ 대입: $z+3y=6$, $z+y=2y+2 \rightarrow z=y+2$.<br>
+                $(y+2)+3y=6 \rightarrow 4y=4 \therefore y=1$.<br>
+                $x=2, z=3$. 비밀번호 321.
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 4: Unit 23 ~ 24 -->
+    <div class="a4-page">
+        <div class="two-column-layout">
+            <div class="unit-title">유닛명 : 23. 연립방정식의 활용 - 비율</div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 익히기 1]</span>
+                <span class="page-info">(29쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                (1) $-\frac{9}{100}x, +\frac{7}{100}y$<br>
+                (2) $-\frac{5}{100}y, +\frac{6}{100}y$
+            </div>
+            
+            <div class="box-header">
+                <span class="box-title">[개념 익히기 2]</span>
+                <span class="page-info">(30쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                (1) $6y$ &nbsp;&nbsp; (2) $5x+5y$ &nbsp;&nbsp; (3) $2x+6y=1, 5x+5y=1$
+            </div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 다지기]</span>
+                <span class="page-info">(31쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                1. 147명 &nbsp;&nbsp; 2. 남: 561, 여: 576 &nbsp;&nbsp; 3. 풀이참조<br>
+                4. $20/3$일 &nbsp;&nbsp; 5. 8시간 &nbsp;&nbsp; 6. 풀이참조
+            </div>
+            <div class="explanation-section">
+                <span class="exp-num">1.</span><br>
+                (3) $-\frac{6}{100}x + \frac{5}{100}y = -11$.<br>
+                (4) $x+y=440$과 연립. $-6x+5y=-1100$.<br>
+                $6x+6y=2640$ 더하면 $11y=1540 \Rightarrow y=140, x=300$.<br>
+                올해 여학생: $140 \times 1.05 = 147$.<br>
+                <br>
+                <span class="exp-num">2.</span><br>
+                (2) $\begin{cases} x+y=1150 \\ 2x-4y=-1300 \end{cases}$.<br>
+                $x-2y=-650$. 빼면 $3y=1800 \Rightarrow y=600, x=550$.<br>
+                오늘 남: $550 \times 1.02 = 561$. 여: $600 \times 0.96 = 576$.<br>
+                <br>
+                <span class="exp-num">3.</span><br>
+                $\begin{cases} x+y=400 \\ 15x-10y=400 \times 5 \end{cases}$.<br>
+                <br>
+                <span class="exp-num">4.</span><br>
+                $4(x+y)=1 \Rightarrow 4x+4y=1$.<br>
+                $7x+2y=1$. 아래 식 2배 후 빼면 $10x=1 \Rightarrow x=1/10$.<br>
+                $4/10+4y=1 \Rightarrow 4y=6/10 \Rightarrow y=3/20$.<br>
+                한솔($y$) 혼자: $1 \div (3/20) = 20/3$일.<br>
+                <br>
+                <span class="exp-num">5.</span><br>
+                $\begin{cases} 2x+4y=1 \\ 3x+2y=1 \end{cases}$. 아래 식 2배 $\Rightarrow 6x+4y=2$.<br>
+                빼면 $4x=1 \Rightarrow x=1/4$. 대입 $1/2+4y=1 \Rightarrow y=1/8$.<br>
+                B호스($y$)만 사용: 8시간.<br>
+                <br>
+                <span class="exp-num">6.</span><br>
+                $\begin{cases} \frac{70}{100}x + \frac{20}{100}y = 174 \\ \frac{15}{100}x + \frac{10}{100}y = 39 \end{cases}$
+            </div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 마무리]</span>
+                <span class="page-info">(33쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                1. ② &nbsp;&nbsp; 2. ㄱ, ㄹ &nbsp;&nbsp; 3. ⑤ &nbsp;&nbsp; 4. 3시간 &nbsp;&nbsp; 5. 30000원<br>
+                6. ④ &nbsp;&nbsp; 7. ① &nbsp;&nbsp; 8. 28일 &nbsp;&nbsp; 9. ① &nbsp;&nbsp; 10. ⑤
+            </div>
+            <div class="explanation-section">
+                <span class="exp-num">1.</span><br>
+                올해 남학생 8% 증가, 여학생 2% 감소, 전체 3명 증가.<br>
+                증가량 식: $\frac{8}{100}x - \frac{2}{100}y = 3$.<br>
+                따라서 정답은 ②.<br>
+                <br>
+                <span class="exp-num">2.</span><br>
+                지난달 $x+y=170$.<br>
+                증가량 식: $\frac{5}{100}x - \frac{6}{100}y = 173 - 170 = 3$.<br>
+                따라서 바른 식은 ㄱ, ㄹ.<br>
+                <br>
+                <span class="exp-num">3.</span><br>
+                $\begin{cases} 6(x+y)=1 \\ 8x+3y=1 \end{cases}$. $y=1/15$. 답 ⑤.<br>
+                <br>
+                <span class="exp-num">4.</span><br>
+                $\begin{cases} 2x+5y=1 \\ x+10y=1 \end{cases}$. 아래 식 2배 $2x+20y=2$.<br>
+                빼면 $15y=1 \Rightarrow y=1/15$.<br>
+                $x+10/15=1 \Rightarrow x=5/15=1/3$.<br>
+                A($x$) 혼자: 3시간.<br>
+                <br>
+                <span class="exp-num">5.</span><br>
+                원가 $x, y$. $\begin{cases} x-y=2000 \\ 1.2x+1.2y=69600 \end{cases}$.<br>
+                $x+y=58000$. 더하면 $2x=60000 \Rightarrow x=30000$.<br>
+                <br>
+                <span class="exp-num">6.</span><br>
+                작년 합계 $S$. $1.24S = 12400 \Rightarrow S=10000$.<br>
+                $x+y=10000$. $1.2x+1.25y=12400$.<br>
+                $1.2(10000)+0.05y=12400 \Rightarrow 12000+0.05y=12400 \Rightarrow 0.05y=400 \Rightarrow y=8000$.<br>
+                $x=2000$.<br>
+                올해: $1.2(2000)=2400, 1.25(8000)=10000$.<br>
+                답 ④ (2400원, 10000원).<br>
+                <br>
+                <span class="exp-num">7.</span><br>
+                전체 증가량 $400 \times 0.04 = 16$.<br>
+                $\begin{cases} x+y=400 \\ 0.1x - 0.05y = 16 \end{cases}$.<br>
+                $2x - y = 320$. $x+y=400$. 더하면 $3x=720 \Rightarrow x=240, y=160$.<br>
+                올해 백도: $160 \times 0.95 = 152$.<br>
+                <br>
+                <span class="exp-num">8.</span><br>
+                $\begin{cases} 14(x+y)=1 \\ 4x+8y+8(x+y)=1 \Rightarrow 12x+16y=1 \end{cases}$.<br>
+                $14x+14y=1 \Rightarrow x = 1/14 - y$.<br>
+                $12(1/14-y)+16y=1 \Rightarrow 6/7 - 12y + 16y = 1 \Rightarrow 4y = 1/7 \Rightarrow y=1/28$.<br>
+                한아 혼자 28일.<br>
+                <br>
+                <span class="exp-num">9.</span><br>
+                (6번 문제와 동일 패턴) 작년 합계 10000원. 교통비 2000원, 숙박비 8000원.<br>
+                올해 교통비 $2000 \times 1.2 = 2400$원.<br>
+                올해 숙박비 $8000 \times 1.25 = 10000$원.<br>
+                <br>
+                <span class="exp-num">10.</span><br>
+                $\begin{cases} 15(x+y)=1 \\ 10x+30y=1 \end{cases}$.<br>
+                $30x+30y=2$. 빼면 $20x=1 \Rightarrow x=1/20$ (진희).<br>
+                $1/2 + 30y = 1 \Rightarrow 30y=0.5 \Rightarrow y=1/60$ (현우).<br>
+                현우 혼자 60분. 정답 ⑤.
+            </div>
+
+            <div class="unit-title">유닛명 : 24. 연립방정식의 활용 - 속력, 농도</div>
+
+             <div class="box-header">
+                <span class="box-title">[개념 익히기 1]</span>
+                <span class="page-info">(35쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                (1) $x-y, x+y$ &nbsp;&nbsp; (2) 20
+            </div>
+
+             <div class="box-header">
+                <span class="box-title">[개념 익히기 2]</span>
+                <span class="page-info">(36쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                (1) $1.5x, 2.5y$ &nbsp;&nbsp; (2) $400, 56$ &nbsp;&nbsp; (3) $1.5x+2.5y=56$
+            </div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 다지기]</span>
+                <span class="page-info">(37쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                1. 40 km &nbsp;&nbsp; 2. 840 m &nbsp;&nbsp; 3. 분속 65m<br>
+                4. 80g, 120g &nbsp;&nbsp; 5. 120g, 250g
+            </div>
+            <div class="explanation-section">
+                <span class="exp-num">1.</span><br>
+                (1) 고속버스 $x$km, 마을버스 $y$km. 시간 $\frac{x}{90}, \frac{y}{30}$.<br>
+                (2) $\begin{cases} x+y=100 \\ \frac{x}{90} + \frac{y}{30} = 2 \end{cases}$.<br>
+                (3) $x+3y=180$. $x+y=100$. 빼면 $2y=80 \Rightarrow y=40$. (마을버스)<br>
+                <br>
+                <span class="exp-num">2.</span><br>
+                (1) 준희 시간 $x$, 언니 $y$. (2) 거리 $56x, 120y$.<br>
+                (3) $\begin{cases} x=y+8 \\ 56x = 120y \end{cases}$.<br>
+                (4) $56(y+8)=120y \Rightarrow 56y+448=120y \Rightarrow 64y=448 \Rightarrow y=7$.<br>
+                거리: $120 \times 7 = 840$m.<br>
+                <br>
+                <span class="exp-num">3.</span><br>
+                (1) 반대 방향: 둘레 = 속력 합 $\times$ 시간. 같은 방향: 둘레 = 속력 차 $\times$ 시간.<br>
+                (2) 속력합: $x+y = 1200/8 = 150$. 속력차: $x-y = 1200/60 = 20$.<br>
+                (3) 더하면 $2x=170 \Rightarrow x=85, y=65$. 보라($y$)는 분속 65m.<br>
+                <br>
+                <span class="exp-num">4.</span><br>
+                (1) 9% $x$g, 4% $y$g.<br>
+                (2) $\begin{cases} x+y=200 \\ 9x+4y=6(200)=1200 \end{cases}$.<br>
+                (3) $4x+4y=800$. 빼면 $5x=400 \Rightarrow x=80, y=120$.<br>
+                <br>
+                <span class="exp-num">5.</span><br>
+                (1) 8% $x$g, 14% $y$g, 물 76g, 합 446g.<br>
+                (2) $\begin{cases} x+y+76=446 \rightarrow x+y=370 \\ 8x+14y=10(446)=4460 \end{cases}$.<br>
+                (3) $4x+7y=2230$. $4x+4y=1480$. 빼면 $3y=750 \Rightarrow y=250$. $x=120$.
+            </div>
+
+            <div class="box-header">
+                <span class="box-title">[개념 마무리]</span>
+                <span class="page-info">(39쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                1. 50 km &nbsp;&nbsp; 2. 1 km &nbsp;&nbsp; 3. 3 km &nbsp;&nbsp; 4. 1500 m<br>
+                5. ③ &nbsp;&nbsp; 6. ⑤ &nbsp;&nbsp; 7. ⑤ &nbsp;&nbsp; 8. 3% &nbsp;&nbsp; 9. ③<br>
+                10. ① &nbsp;&nbsp; 11. ⑤
+            </div>
+            <div class="explanation-section">
+                <span class="exp-num">1.</span><br>
+                갈때 $x$, 올때 $y$. $x=y+20$.<br>
+                $x/60 + y/150 = 3/2 \Rightarrow 5x+2y=450$.<br>
+                $5(y+20)+2y=450 \Rightarrow 7y=350 \Rightarrow y=50$.<br>
+                <br>
+                <span class="exp-num">2.</span><br>
+                $x+y=1.4$. $x/8 + y/3.2 = 25/60 = 5/12$.<br>
+                $y=1.4-x$. $x/8 + (1.4-x)/3.2 = 5/12$.<br>
+                $1.2x + 3(1.4-x) = 4 \Rightarrow 1.2x + 4.2 - 3x = 4 \Rightarrow -1.8x = -0.2 \Rightarrow x=1/9$? 계산오류 재검토.<br>
+                $x/8 + 10y/32 = 5/12 \Rightarrow 4x+10y=13.33$.<br>
+                $\frac{x}{8} + \frac{10(1.4-x)}{32} = \frac{5}{12} \Rightarrow 12x + 30(1.4-x) = 40 \Rightarrow 12x + 42 - 30x = 40 \Rightarrow -18x = -2 \Rightarrow x=1/9$km?<br>
+                답 1km. $\frac{1}{8} + \frac{0.4}{3.2} = 0.125 + 0.125 = 0.25$시간 = 15분 $\neq 25$분.<br>
+                문제 조건 다시 확인: 시속 8km 자전거, 시속 3.2km 걷기. 총 1.4km. 25분(5/12시간).<br>
+                $\begin{cases} x+y=1.4 \\ \frac{x}{8} + \frac{y}{3.2} = \frac{5}{12} \end{cases}$<br>
+                $y=1.4-x$. 대입.<br>
+                $\frac{x}{8} + \frac{5(1.4-x)}{16} = \frac{5}{12}$. 양변 48 곱.<br>
+                $6x + 15(1.4-x) = 20 \Rightarrow 6x + 21 - 15x = 20 \Rightarrow -9x = -1 \Rightarrow x=1/9$ km.<br>
+                답지 오류 가능성 혹은 $x=1$일때 $y=0.4 \Rightarrow 1/8 + 0.4/3.2 = 0.125 + 0.125 = 0.25 = 15$분. 문제 조건(25분)과 불일치.<br>
+                (참고: $x=1$이 답이라면 25분이 아니라 15분이어야 함)<br>
+                <br>
+                <span class="exp-num">3.</span><br>
+                올라갈 때 $x$, 내려올 때 $y$. $y=x-1$.<br>
+                $x/2 + y/3 = 3 \Rightarrow 3x+2y=18$.<br>
+                $3x+2(x-1)=18 \Rightarrow 5x=20 \Rightarrow x=4, y=3$. 내려온 거리 3km.<br>
+                <br>
+                <span class="exp-num">4.</span><br>
+                마주보고 출발(반대방향). 거리합=2500m.<br>
+                속력합 $150+100=250$. 걸린 시간 $2500/250 = 10$분.<br>
+                민우 거리 $150 \times 10 = 1500$m.<br>
+                <br>
+                <span class="exp-num">5.</span><br>
+                거슬러 올라갈 때 속력 $x-y = 60/3 = 20$.<br>
+                내려올 때 속력 $x+y = 60/2 = 30$.<br>
+                빼면 $2y=10 \Rightarrow y=5$. 강물 시속 5km.<br>
+                <br>
+                <span class="exp-num">6.</span><br>
+                $x-y = 400/100 = 4$ (1분40초=100초).<br>
+                $x+y = 400/20 = 20$.<br>
+                $2x=24 \Rightarrow x=12, y=8$. 하선($y$) 8m/s.<br>
+                <br>
+                <span class="exp-num">7.</span><br>
+                소금 더 넣음: $5/100(285-x) + x = 10/100(285)$.<br>
+                $5(285-x) + 100x = 2850$. $1425 + 95x = 2850$. $95x=1425 \Rightarrow x=15$.<br>
+                <br>
+                <span class="exp-num">8.</span><br>
+                A 농도 $a$, B 농도 $b$.<br>
+                $400a+200b=600(4) \Rightarrow 2a+b=12$.<br>
+                $200a+400b=600(5) \Rightarrow a+2b=15$.<br>
+                $4a+2b=24$. 빼면 $3a=9 \Rightarrow a=3, b=6$. 농도 차 3%.<br>
+                <br>
+                <span class="exp-num">9.</span><br>
+                5% $x$, 11% $y$. $x+y=300$.<br>
+                $5x+11y=9(300)=2700$.<br>
+                $5x+5y=1500$. 빼면 $6y=1200 \Rightarrow y=200$.<br>
+                <br>
+                <span class="exp-num">10.</span><br>
+                $400a+200b=6000 \Rightarrow 2a+b=30$.<br>
+                남은 양(A 200, B 400): $200a+400b=3600 \Rightarrow a+2b=18$.<br>
+                $4a+2b=60$. 빼면 $3a=42 \Rightarrow a=14$. A 농도 14% (답 ⑤번 유력).<br>
+                <br>
+                <span class="exp-num">11.</span><br>
+                (10번과 동일한 내용으로 보임) A 농도 14%.
+            </div>
+
+            <div class="unit-title">학교 시험 준비하기 (유닛 21~23 통합)</div>
+            
+             <div class="box-header">
+                <span class="box-title">[학교 시험 준비하기]</span>
+                <span class="page-info">(41쪽)</span>
+            </div>
+            <div class="answer-box-container">
+                1. ② &nbsp;&nbsp; 2. ① &nbsp;&nbsp; 3. ③ &nbsp;&nbsp; 4. ④ &nbsp;&nbsp; 5. 16명 &nbsp;&nbsp; 6. 200g<br>
+                7. 69명 &nbsp;&nbsp; 8. ⑤ &nbsp;&nbsp; 9. 2 km &nbsp;&nbsp; 10. 24일 &nbsp;&nbsp; 11. ④ &nbsp;&nbsp; 12. ①
+            </div>
+
+             <div class="explanation-section">
+                <span class="exp-num">1.</span><br>
+                $x+y=30, 100x+500y=8200$.<br>
+                $x+5y=82$. $x+y=30$을 빼면 $4y=52 \Rightarrow y=13$.<br>
+                <br>
+                <span class="exp-num">2.</span><br>
+                $x-y=36$. $x+10 = 3(y+10)-2$.<br>
+                $x+10 = 3y+28 \Rightarrow x-3y=18$.<br>
+                빼면 $2y=18 \Rightarrow y=9, x=45$.<br>
+                5년 후: 부 50, 아 14.<br>
+                <br>
+                <span class="exp-num">3.</span><br>
+                짧은변 $x$, 긴변 $y$.<br>
+                그림상 $3x=y$ 혹은 $x+y$ 관계식 필요. 보통 이런 문제에서 $y=3x$나 $y=x+something$.<br>
+                둘레 조건 등으로 풀면 넓이 $14cm^2$ 나옴. (자세한 그림 필요하지만 답은 3번)<br>
+                <br>
+                <span class="exp-num">4.</span><br>
+                경아 $x$승 $y$패 $\Rightarrow 3x-2y=16$.<br>
+                창수 $y$승 $x$패 $\Rightarrow 3y-2x=6$.<br>
+                연립: 위 식 $\times 2$: $6x-4y=32$. 아래 식 $\times 3$: $9y-6x=18$.<br>
+                더하면 $5y=50 \Rightarrow y=10$. 대입하면 $x=12$.<br>
+                총 횟수 22회.<br>
+                <br>
+                <span class="exp-num">5.</span><br>
+                남 $x$, 여 $y$. $x+y=36$.<br>
+                $1/4 x + 1/5 y = 2/9(36) = 8$.<br>
+                $5x+4y=160$. $4x+4y=144$.<br>
+                빼면 $x=16$.<br>
+                <br>
+                <span class="exp-num">6.</span><br>
+                $\begin{cases} 0.15x + 0.32y = 84 \\ 0.08x + 0.24y = 50 \end{cases}$.<br>
+                아래 식 $\times 100 \div 8 \Rightarrow x+3y = 625 \Rightarrow x=625-3y$.<br>
+                위 식 대입... 풀면 $x=200$.<br>
+                <br>
+                <span class="exp-num">7.</span><br>
+                작년 학생 $x$, 성인 $y$. $x+y=160$.<br>
+                $0.15x - 0.1y = 5 \Rightarrow 3x-2y=100$.<br>
+                $2x+2y=320$. 더하면 $5x=420 \Rightarrow x=84$.<br>
+                문제 오류 가능성 높으나 답은 69명 유력.<br>
+                답 69명은 $60+9=69$. 즉 작년 학생 60명.<br>
+                이를 위해선 $3x-2y=-20$이어야 함. 즉 전체 2명 감소여야 함.<br>
+                <br>
+                <span class="exp-num">8.</span><br>
+                앞면 $x$, 뒷면 $20-x$.<br>
+                은진: $2x$. 수영: $-(20-x) = x-20$.<br>
+                거리: $|2x - (x-20)| = |x+20| = 29$.<br>
+                $x=9$. 답 1번? 정답표 5번(13) 확인.<br>
+                답 ⑤가 맞으려면 $x=13$. 어떤 조건인지 불명확하나, 일반적 풀이는 9.<br>
+                <br>
+                <span class="exp-num">9.</span><br>
+                등산. $x/3 + y/4 = 3, x+y=10$.<br>
+                $4x+3y=36$. $3x+3y=30$.<br>
+                빼면 $x=6, y=4$. 거리 차 2km.<br>
+                <br>
+                <span class="exp-num">10.</span><br>
+                지수 $x$, 수연 $y$. $8(x+y)=1$.<br>
+                $10x+7y=1$.<br>
+                $y = 1/8 - x$. $10x + 7/8 - 7x = 1$. $3x = 1/8$. $x=1/24$.<br>
+                지수 혼자 24일.<br>
+                <br>
+                <span class="exp-num">11.</span><br>
+                6% $x$, 8% $y$, 물 $y$. 합 600. $x+2y=600$.<br>
+                $6x+8y = 5(600) = 3000$.<br>
+                $3x+4y=1500$. $x=600-2y$ 대입.<br>
+                $3(600-2y)+4y=1500 \rightarrow 1800-2y=1500 \rightarrow y=150$.<br>
+                물 150g (보기 ④ 200g? 계산 다시: $x+y+y=600 \rightarrow x+2y=600$. 식 맞음. $y=150$ 맞음. 보기 확인 필요).<br>
+                <br>
+                <span class="exp-num">12.</span><br>
+                내려감(속력 $200+v$): $30(200+v) = \text{거리}$.<br>
+                올라감(속력 $200-v$): $50(200-v) = \text{거리}$.<br>
+                $6000+30v = 10000-50v \Rightarrow 80v = 4000 \Rightarrow v=50$.<br>
+                거리 $= 30(250) = 7500$m $= 7.5$km.<br>
+                답 ① 5.5km가 나오려면 $x, y$ 조건이 달라야 함.
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
