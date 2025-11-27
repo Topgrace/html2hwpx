@@ -337,9 +337,13 @@ def extract_blocks(html_path: Path, page_limit: Union[int, None] = None):
             # 클래스 기반으로 특수 태그 먼저 확인
             css_classes = node.get('class', []) or []
             
-            # box-header 내부의 span (box-title, page-info)은 건너뛰기 (부모에서 처리됨)
-            if node.name == "span" and node.find_parent(class_=['box-header']):
-                continue
+            # 특수 컨테이너 내부의 span은 건너뛰기 (부모에서 처리됨)
+            if node.name == "span":
+                parent_with_special_class = node.find_parent(
+                    class_=['box-header', 'explanation-section', 'answer-box-container', 'unit-title', 'chapter-header']
+                )
+                if parent_with_special_class:
+                    continue
             
             # 특수 클래스를 가진 div는 건너뛰지 않고 처리
             special_classes = ['unit-title', 'chapter-header', 'box-header', 
