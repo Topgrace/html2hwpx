@@ -195,6 +195,12 @@ def latex_to_hwp_equation(latex: str, max_length: int = 50) -> str:
     # 텍스트 모드
     hwp_eq = re.sub(r'\\text\{([^}]+)\}', r'"\1"', hwp_eq)
     
+    # 연립방정식 (cases): \begin{cases}...\end{cases} -> cases{...}
+    # \\ 는 줄바꿈(#)으로 변환
+    hwp_eq = re.sub(r'\\begin\{cases\}(.*?)\\end\{cases\}', 
+                    lambda m: 'cases{' + re.sub(r'\s*\\\\\s*', '#', m.group(1)).strip() + '}', 
+                    hwp_eq, flags=re.DOTALL)
+    
     # 행렬: \begin{matrix}...\end{matrix} -> matrix{...}
     hwp_eq = re.sub(r'\\begin\{matrix\}(.*?)\\end\{matrix\}', 
                     lambda m: 'matrix{' + m.group(1).replace(r'\\', ' # ').replace('&', ' & ') + '}', 
@@ -296,36 +302,75 @@ def collect_segments(node: Tag) -> List[Segment]:
 def extract_blocks(html_path: Path, page_limit: Union[int, None] = None):
     """본문에서 제목·문단·인용 블록을 순회하며 (태그, 세그먼트 목록)을 구성한다."""
     soup = BeautifulSoup(html_path.read_text(encoding="utf-8"), "lxml")
-    page_sections = soup.select(".page-content") or [soup.body]
+    
+    # 다양한 HTML 구조 지원: .page-content, .two-column-layout, .a4-page 순으로 찾기
+    page_sections = (
+        soup.select(".page-content") or 
+        soup.select(".two-column-layout") or 
+        soup.select(".a4-page") or 
+        [soup.body]
+    )
 
     blocks = []
+    # 콘텐츠 블록으로 인식할 태그들
+    content_tags = ["h1", "h2", "h3", "h4", "p", "li", "blockquote", "div", "span"]
+    # 블록 레벨 컨테이너 태그들 (내부를 재귀 탐색)
+    container_tags = ["section", "div", "article"]
+    
     for page_idx, main in enumerate(page_sections):
         if page_limit is not None and page_idx >= page_limit:
             break
         
-        # page-content의 직접 자식 노드들을 순회
-        for child in main.children:
-            if isinstance(child, NavigableString):
+        if main is None:
+            continue
+        
+        # 페이지 구분을 위해 빈 줄 추가 (첫 페이지 제외)
+        if page_idx > 0:
+            blocks.append(("section-br", []))
+        
+        # 모든 콘텐츠 블록을 순회 (재귀적으로 찾기)
+        for node in main.find_all(content_tags, recursive=True):
+            # blockquote 내부의 p는 중복이므로 건너뛰기
+            if node.name == "p" and node.find_parent("blockquote"):
                 continue
-            elif isinstance(child, Tag):
-                # section과 형제인 br 태그는 빈 줄로 처리
-                if child.name == "br":
-                    blocks.append(("section-br", []))
-                # section 내부의 콘텐츠 블록들을 추출
-                elif child.name == "section":
-                    for node in child.find_all(["h1", "h2", "h3", "h4", "p", "li", "blockquote"], recursive=True):
-                        if node.name == "p" and node.find_parent("blockquote"):
-                            continue  # blockquote 내부의 p는 중복이므로 건너뛰는다.
-                        segments = collect_segments(node)
-                        if segments:
-                            blocks.append((node.name, segments))
-                # section이 없는 경우를 위해 직접 블록 요소도 처리
-                elif child.name in ["h1", "h2", "h3", "h4", "p", "li", "blockquote"]:
-                    if child.name == "p" and child.find_parent("blockquote"):
-                        continue
-                    segments = collect_segments(child)
-                    if segments:
-                        blocks.append((child.name, segments))
+            
+            # 클래스 기반으로 특수 태그 먼저 확인
+            css_classes = node.get('class', []) or []
+            
+            # 특수 클래스를 가진 div는 건너뛰지 않고 처리
+            special_classes = ['unit-title', 'chapter-header', 'box-title', 'box-header', 
+                              'answer-box-container', 'explanation-section']
+            is_special_div = any(cls in css_classes for cls in special_classes)
+            
+            # div나 span 중 텍스트 콘텐츠가 없는 컨테이너는 건너뛰기 (특수 클래스 제외)
+            if node.name in ["div", "span"] and not is_special_div:
+                # 자식 중 다른 콘텐츠 태그가 있으면 건너뛰기 (중복 방지)
+                if node.find(content_tags):
+                    continue
+                # 직접 텍스트가 없으면 건너뛰기
+                direct_text = ''.join(
+                    str(child).strip() for child in node.children 
+                    if isinstance(child, NavigableString)
+                )
+                if not direct_text.strip():
+                    continue
+            
+            segments = collect_segments(node)
+            if segments:
+                # 클래스 기반으로 특수 태그 처리
+                if 'unit-title' in css_classes:
+                    blocks.append(("h2", segments))
+                elif 'chapter-header' in css_classes:
+                    blocks.append(("h1", segments))
+                elif 'box-title' in css_classes or 'box-header' in css_classes:
+                    blocks.append(("h4", segments))
+                elif 'answer-box-container' in css_classes:
+                    blocks.append(("blockquote", segments))
+                elif 'explanation-section' in css_classes:
+                    blocks.append(("p", segments))
+                else:
+                    blocks.append((node.name, segments))
+    
     return blocks
 
 
