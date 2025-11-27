@@ -127,6 +127,21 @@ def latex_to_hwp_equation(latex: str, max_length: int = 50) -> str:
     # 시그마: \sum -> sum
     hwp_eq = hwp_eq.replace(r'\sum', 'sum')
     
+    # 위에 텍스트가 있는 화살표: \xrightarrow{...} -> REL rarrow {...} {}
+    # 이 처리를 \times 변환 전에 해야 함 (내부의 \times를 TIMES로 변환하기 위해)
+    def convert_xarrow_content(content):
+        content = content.replace(r'\times', 'TIMES')
+        content = content.replace(r'\div', 'DIV')
+        content = content.replace(r'\pm', 'PM')
+        return content
+    
+    hwp_eq = re.sub(r'\\xrightarrow\{([^}]*)\}', 
+                    lambda m: 'REL rarrow { ' + convert_xarrow_content(m.group(1)) + ' } {}', 
+                    hwp_eq)
+    hwp_eq = re.sub(r'\\xleftarrow\{([^}]*)\}', 
+                    lambda m: 'REL larrow { ' + convert_xarrow_content(m.group(1)) + ' } {}', 
+                    hwp_eq)
+    
     # 곱셈: \times -> times
     hwp_eq = hwp_eq.replace(r'\times', 'times')
     
@@ -140,6 +155,9 @@ def latex_to_hwp_equation(latex: str, max_length: int = 50) -> str:
     hwp_eq = hwp_eq.replace(r'\implies', 'RARROW')
     hwp_eq = hwp_eq.replace(r'\leftarrow', 'larrow')
     hwp_eq = hwp_eq.replace(r'\Leftarrow', 'LARROW')
+    
+    # therefore (∴) : 줄바꿈 후 출력
+    hwp_eq = hwp_eq.replace(r'\therefore', '# therefore')
     
     # 무한대: \infty -> inf
     hwp_eq = hwp_eq.replace(r'\infty', 'inf')
