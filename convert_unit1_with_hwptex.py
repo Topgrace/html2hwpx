@@ -203,6 +203,8 @@ def latex_to_hwp_equation(latex: str, max_length: int = 50) -> str:
     
     # 박스 기호
     hwp_eq = hwp_eq.replace(r'\Box', 'box{}')
+    # \boxed{내용} -> box{내용}
+    hwp_eq = re.sub(r'\\boxed\{([^}]+)\}', r'box{\1}', hwp_eq)
     
     # 점 표시
     hwp_eq = hwp_eq.replace(r'\cdot', 'cdot')
@@ -248,6 +250,10 @@ def latex_to_hwp_equation(latex: str, max_length: int = 50) -> str:
     return hwp_eq
 
 
+# 마크다운 스타일 굵은 글씨 패턴: **텍스트**
+BOLD_PATTERN = re.compile(r'\*\*([^*]+)\*\*')
+
+
 def split_text_with_math(text: str) -> List[Segment]:
     """텍스트에서 일반 문자열과 LaTeX 수식을 분리한다."""
     parts: List[Segment] = []
@@ -272,9 +278,36 @@ def split_text_with_math(text: str) -> List[Segment]:
                 print(f"[경고] 한글 수식 변환 실패: {latex} -> {exc}")
             parts.append(("math", latex, hwp_equation))
         else:
-            clean = chunk.strip()
-            if clean:
-                parts.append(("text", clean))
+            # 마크다운 스타일 **굵은 글씨** 처리
+            parts.extend(split_text_with_bold(chunk))
+    return parts
+
+
+def split_text_with_bold(text: str) -> List[Segment]:
+    """텍스트에서 **굵은 글씨** 마크다운을 분리한다."""
+    parts: List[Segment] = []
+    last_end = 0
+    
+    for match in BOLD_PATTERN.finditer(text):
+        # 굵은 글씨 앞의 일반 텍스트
+        before = text[last_end:match.start()].strip()
+        if before:
+            parts.append(("text", before))
+        
+        # 굵은 글씨
+        bold_text = match.group(1).strip()
+        if bold_text:
+            parts.append(("bold_start", ""))
+            parts.append(("text", bold_text))
+            parts.append(("bold_end", ""))
+        
+        last_end = match.end()
+    
+    # 마지막 남은 텍스트
+    remaining = text[last_end:].strip()
+    if remaining:
+        parts.append(("text", remaining))
+    
     return parts
 
 
@@ -295,8 +328,8 @@ def collect_segments(node: Tag) -> List[Segment]:
             if child.name == "br":
                 segments.append(("break", ""))
                 prev_was_block = False
-            elif child.name == "b":
-                # <b> 태그: 굵은 텍스트 시작/끝 마커 추가
+            elif child.name in ["b", "strong"]:
+                # <b>, <strong> 태그: 굵은 텍스트 시작/끝 마커 추가
                 segments.append(("bold_start", ""))
                 segments.extend(collect_segments(child))
                 segments.append(("bold_end", ""))
