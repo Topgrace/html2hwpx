@@ -1,14 +1,163 @@
 import os
 import re
 import sys
+import tempfile
 from pathlib import Path
 from typing import List, Tuple, Union
 
 from bs4 import BeautifulSoup, NavigableString, Tag
 from pyhwpx import Hwp
 
+# SVG 변환 라이브러리 시도
+HAS_SVG_CONVERTER = False
+SVG_LIB = None
+
+# 1. wand (ImageMagick) 시도
+try:
+    from wand.image import Image as WandImage
+    HAS_SVG_CONVERTER = True
+    SVG_LIB = "wand"
+except ImportError:
+    pass
+
+# 2. svglib + reportlab 시도 (cairo 필요)
+if not HAS_SVG_CONVERTER:
+    try:
+        from svglib.svglib import svg2rlg
+        from reportlab.graphics import renderPM
+        HAS_SVG_CONVERTER = True
+        SVG_LIB = "svglib"
+    except (ImportError, OSError):
+        pass
+
+# 3. cairosvg 시도
+if not HAS_SVG_CONVERTER:
+    try:
+        import cairosvg
+        HAS_SVG_CONVERTER = True
+        SVG_LIB = "cairosvg"
+    except (ImportError, OSError):
+        pass
+
+if not HAS_SVG_CONVERTER:
+    print("경고: SVG 변환 라이브러리가 설치되지 않았습니다. SVG는 [SVG 이미지]로 대체됩니다.")
+    print("설치 옵션:")
+    print("  1. pip install wand (+ ImageMagick 설치)")
+    print("  2. pip install cairosvg (+ GTK 런타임 설치)")
+
 MATH_PATTERN = re.compile(r'(\$[^$]+\$|\\\([^\\)]+\\\)|\\\[[^\\]]+\\\])')
 Segment = Union[Tuple[str, str], Tuple[str, str, str]]
+
+# 임시 이미지 파일들을 저장할 리스트 (나중에 정리)
+_temp_image_files: List[Path] = []
+
+
+def convert_svg_to_png(svg_element: Tag, scale: float = 2.0) -> Union[Tuple[Path, int, int], None]:
+    """SVG 요소를 PNG 이미지로 변환하고 임시 파일 경로와 크기를 반환한다.
+    
+    Args:
+        svg_element: BeautifulSoup SVG 태그
+        scale: 이미지 확대 비율 (기본 2배로 고해상도)
+    
+    Returns:
+        (PNG 파일 경로, 원본 너비, 원본 높이) 튜플 또는 실패 시 None
+    """
+    if not HAS_SVG_CONVERTER:
+        print("SVG 변환 건너뜀: SVG 변환 라이브러리가 설치되지 않음")
+        return None
+    
+    try:
+        # SVG를 문자열로 변환
+        svg_string = str(svg_element)
+        
+        # width, height 속성 추출 (있으면)
+        width = svg_element.get('width', '200')
+        height = svg_element.get('height', '200')
+        
+        # 단위 제거하고 숫자만 추출
+        width = int(re.sub(r'[^\d]', '', str(width)) or '200')
+        height = int(re.sub(r'[^\d]', '', str(height)) or '200')
+        
+        # 임시 SVG 파일 생성
+        temp_svg_file = tempfile.NamedTemporaryFile(
+            suffix='.svg', 
+            delete=False,
+            prefix='hwp_svg_',
+            mode='w',
+            encoding='utf-8'
+        )
+        temp_svg_path = Path(temp_svg_file.name)
+        temp_svg_file.write(svg_string)
+        temp_svg_file.close()
+        
+        # 임시 PNG 파일 생성
+        temp_png_file = tempfile.NamedTemporaryFile(
+            suffix='.png', 
+            delete=False,
+            prefix='hwp_png_'
+        )
+        temp_png_path = Path(temp_png_file.name)
+        temp_png_file.close()
+        
+        if SVG_LIB == "wand":
+            # wand (ImageMagick) 사용
+            from wand.image import Image as WandImage
+            with WandImage(filename=str(temp_svg_path)) as img:
+                img.resize(int(width * scale), int(height * scale))
+                img.save(filename=str(temp_png_path))
+        elif SVG_LIB == "svglib":
+            # svglib 사용
+            from svglib.svglib import svg2rlg
+            from reportlab.graphics import renderPM
+            drawing = svg2rlg(str(temp_svg_path))
+            if drawing is None:
+                raise ValueError("SVG 파싱 실패")
+            
+            # 스케일 적용
+            drawing.width = width * scale
+            drawing.height = height * scale
+            drawing.scale(scale, scale)
+            
+            # PNG로 저장
+            renderPM.drawToFile(drawing, str(temp_png_path), fmt="PNG")
+        elif SVG_LIB == "cairosvg":
+            # cairosvg 사용
+            import cairosvg
+            cairosvg.svg2png(
+                bytestring=svg_string.encode('utf-8'),
+                write_to=str(temp_png_path),
+                output_width=int(width * scale),
+                output_height=int(height * scale)
+            )
+        
+        # 임시 SVG 파일 삭제
+        temp_svg_path.unlink()
+        
+        # 임시 PNG 파일 목록에 추가 (나중에 정리)
+        _temp_image_files.append(temp_png_path)
+        
+        return (temp_png_path, width, height)
+    except Exception as e:
+        print(f"SVG 변환 오류: {e}")
+        # 임시 파일 정리
+        try:
+            if 'temp_svg_path' in locals() and temp_svg_path.exists():
+                temp_svg_path.unlink()
+        except:
+            pass
+        return None
+
+
+def cleanup_temp_images():
+    """임시 이미지 파일들을 정리한다."""
+    global _temp_image_files
+    for temp_path in _temp_image_files:
+        try:
+            if temp_path.exists():
+                temp_path.unlink()
+        except Exception as e:
+            print(f"임시 파일 삭제 실패: {temp_path} - {e}")
+    _temp_image_files = []
 
 
 def find_matching_brace(text: str, start_pos: int) -> int:
@@ -334,6 +483,41 @@ def collect_segments(node: Tag) -> List[Segment]:
                 segments.extend(collect_segments(child))
                 segments.append(("bold_end", ""))
                 prev_was_block = False
+            elif child.name == "span":
+                # span 태그: 클래스에 따라 색상 처리
+                css_classes = child.get('class', []) or []
+                if 'blue-text' in css_classes:
+                    segments.append(("color_start", "blue"))
+                    segments.extend(collect_segments(child))
+                    segments.append(("color_end", ""))
+                    prev_was_block = False
+                elif 'red-text' in css_classes:
+                    segments.append(("color_start", "red"))
+                    segments.extend(collect_segments(child))
+                    segments.append(("color_end", ""))
+                    prev_was_block = False
+                else:
+                    # 일반 span은 재귀 처리
+                    segments.extend(collect_segments(child))
+                    prev_was_block = False
+            elif child.name == "svg":
+                # SVG 태그: 이미지로 변환
+                print(f"[SVG 감지] width={child.get('width')}, height={child.get('height')}")
+                result = convert_svg_to_png(child)
+                if result:
+                    png_path, width, height = result
+                    print(f"[SVG 변환 성공] {png_path}")
+                    # 블록 앞뒤로 줄바꿈 추가
+                    if segments and segments[-1][0] != "break":
+                        segments.append(("break", ""))
+                    segments.append(("svg", str(png_path), width, height))
+                    segments.append(("break", ""))
+                    prev_was_block = True
+                else:
+                    # 변환 실패 시 대체 텍스트
+                    print("[SVG 변환 실패]")
+                    segments.append(("text", "[SVG 이미지]"))
+                    prev_was_block = False
             elif child.name in block_level_tags:
                 # 블록 레벨 태그: 형제 블록 사이에 줄바꿈 추가
                 if prev_was_block:
@@ -401,8 +585,11 @@ def extract_blocks(html_path: Path, page_limit: Union[int, None] = None):
                               'answer-box-container', 'explanation-section']
             is_special_div = any(cls in css_classes for cls in special_classes)
             
-            # div나 span 중 텍스트 콘텐츠가 없는 컨테이너는 건너뛰기 (특수 클래스 제외)
-            if node.name in ["div", "span"] and not is_special_div:
+            # SVG를 포함한 div인지 확인
+            has_svg = node.find('svg') is not None
+            
+            # div나 span 중 텍스트 콘텐츠가 없는 컨테이너는 건너뛰기 (특수 클래스나 SVG 포함 제외)
+            if node.name in ["div", "span"] and not is_special_div and not has_svg:
                 # 자식 중 다른 콘텐츠 태그가 있으면 건너뛰기 (중복 방지)
                 if node.find(content_tags):
                     continue
@@ -435,6 +622,9 @@ def extract_blocks(html_path: Path, page_limit: Union[int, None] = None):
 
 def insert_segments_into_hwp(hwp: Hwp, segments: List[Segment]) -> None:
     """세그먼트를 순회하며 텍스트와 수식을 한글 문서에 삽입한다."""
+    # 색상 스택 (중첩 색상 지원)
+    color_stack = []
+    
     for segment in segments:
         kind = segment[0]
         if kind == "text":
@@ -445,6 +635,48 @@ def insert_segments_into_hwp(hwp: Hwp, segments: List[Segment]) -> None:
             hwp.set_font(Bold=True)
         elif kind == "bold_end":
             hwp.set_font(Bold=False)
+        elif kind == "color_start":
+            color = segment[1]
+            color_stack.append(color)
+            # 색상 적용
+            if color == "blue":
+                hwp.CharShapeTextColorBlue()  # 파란색
+            elif color == "red":
+                hwp.CharShapeTextColorRed()  # 빨간색
+        elif kind == "color_end":
+            if color_stack:
+                color_stack.pop()
+            # 이전 색상으로 복원 또는 기본 색상(검정)
+            if color_stack:
+                prev_color = color_stack[-1]
+                if prev_color == "blue":
+                    hwp.CharShapeTextColorBlue()
+                elif prev_color == "red":
+                    hwp.CharShapeTextColorRed()
+            else:
+                hwp.CharShapeTextColorBlack()  # 검정색 (기본)
+        elif kind == "svg":
+            # SVG 이미지 삽입
+            image_path = segment[1]
+            width = segment[2] if len(segment) > 2 else 200
+            height = segment[3] if len(segment) > 3 else 200
+            try:
+                # 이미지 삽입 (픽셀 -> mm 변환, 96dpi 기준)
+                # HWP는 mm 단위 사용
+                width_mm = width * 25.4 / 96  # 픽셀을 mm로 변환
+                height_mm = height * 25.4 / 96
+                
+                hwp.insert_picture(
+                    image_path,
+                    embedded=True,
+                    sizeoption=1,  # 지정한 크기 사용
+                    width=width_mm,
+                    height=height_mm,
+                    treat_as_char=True  # 글자처럼 취급
+                )
+            except Exception as e:
+                print(f"이미지 삽입 오류: {e}")
+                hwp.insert_text("[이미지 삽입 실패]")
         elif kind == "math":
             _, latex, hwp_equation = segment
             if not hwp_equation:
@@ -558,6 +790,10 @@ def create_full_hwpx(blocks, output_path: Path) -> None:
 
     hwp.save_as(str(output_path), format="HWPX")
     hwp.quit()
+    
+    # 임시 이미지 파일 정리
+    cleanup_temp_images()
+    
     print(f"[완료] {output_path} 저장")
 
 
